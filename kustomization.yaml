@@ -1,0 +1,8 @@
+namespace: sonarqube
+
+commonLabels:
+  app: sonarqube
+
+resources:
+  - namespace.yaml
+  - sonar-template.yaml
