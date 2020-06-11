@@ -46,7 +46,7 @@ SONARQUBE_JDBC_PASSWORD - password for the above user
 
 These need to be added in as Kubernetes secrets and mounted into the sonarqube pod https://kubernetes.io/docs/concepts/configuration/secret/.
 
-To run Sonarqube, add the secrets, volumes, volumeMounts and env to set values for the above variables. 
+To deploy Sonarqube, add the secrets, volumes, volumeMounts and env to set values for the above variables. 
 After the above secrets are incorporated into the sonarqube/ manifests, to deploy Sonarqube apply the kustomized manifest:
 
 ```
@@ -55,12 +55,12 @@ kubectl apply -k sonarqube/
 
 ### IMPORTANT  Default Admin Credentials
 
-When installing SonarQube, a default user with Administer System permission is created automatically:
+When installing SonarQube, a default user with administrator privileges is created automatically:
 
 Login: admin
 Password: admin
 
-You can change the administrator password from the SonarQube dashboard by following these steps:
+For security reasons the administrator password should be changed. This can be done from the SonarQube dashboard by following these steps:
 
 1)Log in to the SonarQube dashboard.
 
