@@ -4,7 +4,6 @@ Thanks for contributing to this repository!
 
 This repository follows the following conventions:
 
-* [Semantic Versioning](https://semver.org/)
 * [Keep a Changelog](https://keepachangelog.com/)
 * [Conventional Commits](https://www.conventionalcommits.org/)
 
