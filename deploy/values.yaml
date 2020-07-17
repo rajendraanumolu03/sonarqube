@@ -1,0 +1,21 @@
+elasticsearch:
+  configureNode: false
+  bootstrapChecks: false
+
+ingress:
+  enabled: false
+
+persistence:
+  enabled: true
+
+postgresql:
+  enabled: false
+
+  existingSecret: db-credentials
+  postgresqlServer: db.admin.dsop.io
+  postgresqlDatabase: sonarDB
+
+  # plugins:
+  #   - https://mattsmom.jar
+
+enableTests: false
