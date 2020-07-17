@@ -1,0 +1,14 @@
+namespace: sonarqube
+
+commonLabels:
+  app: sonarqube
+
+resources:
+  - namespace.yaml
+  - all.yaml
+
+configMapGenerator:
+  - name: sonarqube-properties
+    namespace: sonarqube
+    files:
+      - sonar.properties

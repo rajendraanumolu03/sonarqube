@@ -1,0 +1,159 @@
+---
+# Source: sonarqube/templates/copy-plugins.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sonarqube-copy-plugins
+data:
+  copy_plugins.sh: |-
+    #!/bin/bash
+    exec /opt/sonarqube/bin/run.sh
+---
+# Source: sonarqube/templates/install-plugins.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sonarqube-install-plugins
+data:
+  install_plugins.sh: |-
+    cd /opt/sonarqube/extensions/plugins/tmp
+---
+# Source: sonarqube/templates/postgres-config.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sonarqube-postgres-config
+data:
+  SONARQUBE_JDBC_USERNAME:  "sonarUser"
+  SONARQUBE_JDBC_URL: "jdbc:postgresql://db.admin.dsop.io:5432/sonarDB"
+---
+# Source: sonarqube/templates/pvc.yaml
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: sonarqube
+spec:
+  accessModes:
+    - "ReadWriteOnce"
+  resources:
+    requests:
+      storage: "10Gi"
+---
+# Source: sonarqube/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: sonarqube
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9000
+      targetPort: http
+      protocol: TCP
+      name: http
+---
+# Source: sonarqube/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonarqube
+spec:
+  # WARNING: One day clustering will be a thing, today is not that day $$$
+  strategy:
+    type: Recreate
+  replicas: 1
+  template:
+    spec:
+      securityContext:
+        fsGroup: 999
+      containers:
+        - name: sonarqube
+          image: registry.dsop.io/platform-one/apps/sonarqube:8.4-0.1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 9000
+              protocol: TCP
+          env:
+            - name: SONARQUBE_WEB_JVM_OPTS
+              value: ""
+            - name: SONARQUBE_JDBC_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: app-db-credentials
+                  key: APP_DB_USER
+            - name: SONARQUBE_JDBC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-db-credentials
+                  key: APP_DB_PASSWORD
+            - name: SONARQUBE_JDBC_URL
+              valueFrom:
+                secretKeyRef:
+                  name: app-db-credentials
+                  key: APP_DB_JDBC_URL
+          envFrom:
+            - configMapRef:
+                name: sonarqube-postgres-config
+          livenessProbe:
+            httpGet:
+              path: /sessions/new
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /sessions/new
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            failureThreshold: 6
+          volumeMounts:
+            - mountPath: /opt/sonarqube/conf/
+              name: config
+            - mountPath: /opt/sonarqube/data
+              name: sonarqube
+              subPath: data
+            - mountPath: /opt/sonarqube/extensions/plugins/tmp
+              name: sonarqube
+              subPath: tmp
+            - mountPath: /opt/sonarqube/extensions/downloads
+              name: sonarqube
+              subPath: downloads
+            - mountPath: /opt/sonarqube/temp
+              name: sonarqube
+              subPath: temp
+            - mountPath: /opt/sonarqube/logs
+              name: sonarqube
+              subPath: logs
+            - mountPath: /tmp
+              name: tmp-dir
+            - name: copy-plugins
+              mountPath: /tmp/scripts
+          resources:
+            {}
+      volumes:
+      - name: config
+        configMap:
+          name: sonarqube-properties
+          items:
+          - key: sonar.properties
+            path: sonar.properties
+      - name: install-plugins
+        configMap:
+          name: sonarqube-install-plugins
+          items:
+            - key: install_plugins.sh
+              path: install_plugins.sh
+      - name: copy-plugins
+        configMap:
+          name: sonarqube-copy-plugins
+          defaultMode: 0755
+          items:
+            - key: copy_plugins.sh
+              path: copy_plugins.sh
+      - name: sonarqube
+        persistentVolumeClaim:
+          claimName: sonarqube
+      - name : tmp-dir
+        emptyDir: {}
