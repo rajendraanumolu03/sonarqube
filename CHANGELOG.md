@@ -5,4 +5,5 @@
 Initial release
 upstream version 8.3-community [Version 8.3.1 (build 34397)]
 
+Added logging instructions to docs 7/22/2020
 
