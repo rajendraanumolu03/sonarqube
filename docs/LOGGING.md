@@ -1,11 +1,39 @@
 
 # Logging  
 
-By default, this application's logs will appear on Kibana under an index prefix name of logstash-*. To verify and configure the index, utilize Kibana Discover.
+# Pre-requisites
 
-The sonarqube pod runs the sonarqube namespace and the logs for this contaienr can be filtered with kubernetes.container_name: sonarqube  
+Sonarqube is deployed
 
+ECK/Fluentd is deployed
+
+# Getting Started
+
+1. Login to Kibana
+    username: elastic
+    Password : <password>
+    Password can be obtained by querying kubectl get secret elasticsearch-es-elastic-user -n elastic -o yaml
+
+2. Create Index by  selecting Management icon from the left menu and  clicking Index patterns under Kibana
+    In the Create Index patterns <sonarqube*> and click create index pattern.
+    In the the next step Click on the dropdown and select "@timestamp"
+
+3. For Search click on Discovery from the side menu
+
+4. In KQL textbox enter the  field of interest for eg:  "kubernetes.namespace_name : sonarqube*"
+
+5. Click Refresh/Update
+  
 ## Application Logs
+
+Application logs are available in the applicaiton.  Go to the sonarkube URL and select login from the upper lefr.  The default credentials:
+
+Username: <admin>
+Password: <admin>
+
+Note: change the password on the first login  
+
+Logs can be downloaded by goint to Administration-> System -> Download Logs
 
 Server-side logging is controlled by properties set in $SONARQUBE-HOME/conf/sonar.properties.
 
@@ -51,4 +79,4 @@ The number of Lines of Code (for licensing purposes) in an instance can be found
 
 Further logging information can be found in the sonarqube configuration file.  For details run the following command:
 
-``kubectl exec sonarqube-sonarqube-5dd795f449-lwkf7 -n sonarqube -- cat ./conf/sonar.properties``  
+``kubectl exec sonarqube-sonarqube-5dd795f449-xxxx -n sonarqube -- cat ./conf/sonar.properties``  
