@@ -1,8 +1,8 @@
 # Sonarqube 8.3 Community version [Version 8.3.1 (build 34397)]
 
-This repo contains manifests to deploy Sonarqube static code analysis tool into a Kubernetes cluster. 
+This repo contains manifests to deploy Sonarqube static code analysis tool into a Kubernetes cluster.
 
-Additional docs for using Sonarqube and its plugins can be found at https://docs.sonarqube.org/latest/ 
+Additional docs for using Sonarqube and its plugins can be found at <https://docs.sonarqube.org/latest/>
 
 ## Usage
 
@@ -13,27 +13,27 @@ Additional docs for using Sonarqube and its plugins can be found at https://docs
 
 Install kubectl
 
-```
+``
 brew install kubectl
-```
+``
 
-Install kustomize 
+Install kustomize
 
-```
+``
 brew install kustomize
-```
+``
 
 ### Deployment
 
 Clone repository
 
-```
+``
 git clone https://repo1.dsop.io/platform-one/apps/sonarqube.git
-```
+``
 
-```
+``
 cd sonarqube
-```
+``
 
 Please note that appropriate secrets (listed below) should be defined before the sonarqube pod is able to connect to the postgres database and is able to function properly.
 Sonarqube needs three environment variables to access the postgres database.
@@ -44,14 +44,14 @@ SONARQUBE_JDBC_USERNAME - username to access the postgres database
 
 SONARQUBE_JDBC_PASSWORD - password for the above user
 
-These need to be added in as Kubernetes secrets and mounted into the sonarqube pod https://kubernetes.io/docs/concepts/configuration/secret/.
+These need to be added in as Kubernetes secrets and mounted into the sonarqube pod <https://kubernetes.io/docs/concepts/configuration/secret/>.
 
-To deploy Sonarqube, add the secrets, volumes, volumeMounts and env to set values for the above variables. 
+To deploy Sonarqube, add the secrets, volumes, volumeMounts and env to set values for the above variables.
 After the above secrets are incorporated into the sonarqube/ manifests, to deploy Sonarqube apply the kustomized manifest:
 
-```
+``
 kubectl apply -k sonarqube/
-```
+``
 
 ### IMPORTANT  Default Admin Credentials
 
@@ -78,4 +78,4 @@ To contribute to Big Bang Sonarqube, see the [Contributing Guide](CONTRIBUTING.m
 
 ## References
 
-Docker image  https://dcar.dsop.io/repomap/sonarsource/sonarqube/sonarqube8-community SHA tag - sha256:7356de08b61c240302aa91040a7abea1ebea190afb2d14f35191e272ddbc712a
+Docker image  <https://dcar.dsop.io/repomap/sonarsource/sonarqube/sonarqube8-community> SHA tag - sha256:7356de08b61c240302aa91040a7abea1ebea190afb2d14f35191e272ddbc712a
