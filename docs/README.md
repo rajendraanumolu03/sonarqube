@@ -35,7 +35,15 @@ git clone https://repo1.dsop.io/platform-one/apps/sonarqube.git
 cd sonarqube
 ``
 
-Please note that appropriate secrets (listed below) should be defined before the sonarqube pod is able to connect to the postgres database and is able to function properly.
+Please note the settings applied in the file "sonar.properties" since they override any settings applied through the UI. [Documentation can be found here](https://docs.sonarqube.org/latest/setup/operate-cluster/#header-8) with additional properties shown in the Sonarqube instance's settings page.
+
+:warning: Sonarqube's UI may not display the true value for settings applied through "sonar.properties"
+
+`sonar.es.bootstrap.checks.disable=true` – Disables enforcement of [Elasticsearch and system setting checks](https://www.elastic.co/guide/en/elasticsearch/reference/current/bootstrap-checks.html).
+
+`sonar.forceAuthentication=true` – [Restricts anonymous users from browsing the SonarQube instance](https://docs.sonarqube.org/latest/instance-administration/security/), either through the API or the web service
+
+Please also note that appropriate secrets (listed below) should be defined before the sonarqube pod is able to connect to the postgres database and is able to function properly.
 Sonarqube needs three environment variables to access the postgres database.
 
 SONARQUBE_JDBC_URL - URL for the postgres database to use
