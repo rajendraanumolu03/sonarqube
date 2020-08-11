@@ -16,8 +16,6 @@ images:
   - name: registry.dsop.io/platform-one/apps/sonarqube:8.4-0.1.0
     newName: registry.dsop.io/platform-one/apps/sonarqube-ib
     newTag: 8.3-community-ib-bb
-  - name: bitnami/postgresql
-    newName: registry.dsop.io/platform-one/apps/sonarqube/postgres12-ib
-    newTag: 12.3-ib
+
 
 
