@@ -8,7 +8,7 @@ WORKDIR /plugins
 RUN wget https://github.com/vaulttec/sonar-auth-oidc/releases/download/v2.0.0/sonar-auth-oidc-plugin-2.0.0.jar
 
 #
-FROM sonarqube:8.4-community
+FROM registry.dsop.io/platform-one/apps/sonarqube/sonarqube:8.3-community
 
 # Fetch plugins and load into appropriate dir
 ENV PLUGIN_DIR=/opt/sonarqube/extensions/plugins
