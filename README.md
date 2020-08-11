@@ -1,4 +1,4 @@
-# Sonarqube 8.3 Community version [Version 8.3.1 (build 34397)]
+# Sonarqube 8.3 Community version [Version 8.3.1 (build 34397)] with auth-oidc 2.0.0 plugin
 
 This repo contains manifests to deploy Sonarqube static code analysis tool into a Kubernetes cluster. 
 
