@@ -25,4 +25,4 @@ FROM registry.dsop.io/platform-one/apps/sonarqube/sonarqube:8.3-community
 ENV PLUGIN_DIR=/opt/sonarqube/extensions/plugins
 
 # Fetch oidc plugin
-COPY --from=fetcher /plugins/sonar-auth-oidc-plugin-2.0.0.jar ${PLUGIN_DIR}
+COPY --from=fetcher /plugins/*.jar ${PLUGIN_DIR}/
