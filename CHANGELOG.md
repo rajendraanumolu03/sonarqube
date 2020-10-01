@@ -11,3 +11,5 @@ Added logging instructions to docs 7/22/2020
 
 Added auth-oidc plugin version 2.0.0
 
+Added plugins for scanning C/C++ code 10/01/2020
+

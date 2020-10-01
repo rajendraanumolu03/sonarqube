@@ -68,7 +68,7 @@ spec:
         fsGroup: 999
       containers:
         - name: sonarqube
-          image: registry.dsop.io/platform-one/apps/sonarqube:8.4-0.1.0
+          image: registry.dsop.io/platform-one/apps/sonarqube:8.4-0.1.2
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
