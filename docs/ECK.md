@@ -1,4 +1,3 @@
-
 # Logging  
 
 # Pre-requisites
@@ -79,4 +78,4 @@ The number of Lines of Code (for licensing purposes) in an instance can be found
 
 Further logging information can be found in the sonarqube configuration file.  For details run the following command:
 
-``kubectl exec sonarqube-sonarqube-5dd795f449-xxxx -n sonarqube -- cat ./conf/sonar.properties``  
+```kubectl exec sonarqube-sonarqube-5dd795f449-xxxx -n sonarqube -- cat ./conf/sonar.properties``  

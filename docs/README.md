@@ -1,39 +1,24 @@
 # Sonarqube 8.3 Community version [Version 8.3.1 (build 34397)] with auth oidc 2.0.0 plugin
 
-This repo contains manifests to deploy Sonarqube static code analysis tool into a Kubernetes cluster.
+## Table Of Contents
 
+- Application Overview
+- Usage
+- Integrations
+    - Prometheus
+    - ECK
+    - Keycloak
+- Troubleshooting Tips
+
+### Application Overview
+
+This repo contains manifests to deploy Sonarqube static code analysis tool into a Kubernetes cluster.
 Additional docs for using Sonarqube and its plugins can be found at <https://docs.sonarqube.org/latest/>
 
-## Usage
 
-### Pre-requisites
+### Usage
 
-* Kubernetes cluster deployed
-* kubectl configuration installed
-
-Install kubectl
-
-``
-brew install kubectl
-``
-
-Install kustomize
-
-``
-brew install kustomize
-``
-
-### Deployment
-
-Clone repository
-
-``
-git clone https://repo1.dsop.io/platform-one/apps/sonarqube.git
-``
-
-``
-cd sonarqube
-``
+#### Deployment Notes
 
 Please note the settings applied in the file "sonar.properties" since they override any settings applied through the UI. [Documentation can be found here](https://docs.sonarqube.org/latest/setup/operate-cluster/#header-8) with additional properties shown in the Sonarqube instance's settings page.
 
@@ -54,14 +39,9 @@ SONARQUBE_JDBC_PASSWORD - password for the above user
 
 These need to be added in as Kubernetes secrets and mounted into the sonarqube pod <https://kubernetes.io/docs/concepts/configuration/secret/>.
 
-To deploy Sonarqube, add the secrets, volumes, volumeMounts and env to set values for the above variables.
-After the above secrets are incorporated into the sonarqube/ manifests, to deploy Sonarqube apply the kustomized manifest:
 
-``
-kubectl apply -k sonarqube/
-``
 
-### IMPORTANT  Default Admin Credentials
+#### Default Admin Credentials
 
 When installing SonarQube, a default user with administrator privileges is created automatically:
 
@@ -80,10 +60,22 @@ For security reasons the administrator password should be changed. This can be d
 
 5)Click the “Change password” button.
 
-## Contributing
 
-To contribute to Big Bang Sonarqube, see the [Contributing Guide](CONTRIBUTING.md).
+### Integrations
 
-## References
+#### [Prometheus.md](Prometheus.md)
+- Configuration items 
+- List of metrics gathered
+- Useful queries [living list]
 
-Docker image  <https://dcar.dsop.io/repomap/sonarsource/sonarqube/sonarqube8-community> SHA tag - sha256:7356de08b61c240302aa91040a7abea1ebea190afb2d14f35191e272ddbc712a
+#### [ECK.md](ECK.md)
+- Configuration items
+- Fluentd Pipelines
+- Important Logs
+- Useful queries [living list]
+
+#### [Keycloak.md](Keycloak.md)
+- Configuration items
+- Add new groups
+- Claim information
+- OiD / SAML application items
