@@ -8,6 +8,7 @@
     - Prometheus
     - ECK
     - Keycloak
+    - Party Bus
 - Troubleshooting Tips
 
 ### Application Overview
@@ -79,3 +80,8 @@ For security reasons the administrator password should be changed. This can be d
 - Add new groups
 - Claim information
 - OiD / SAML application items
+
+#### [PartyBus.md](PartyBus.md)
+- First time configuration
+- OIDC integration
+- Pipeline integration
