@@ -12,10 +12,4 @@ configMapGenerator:
     namespace: sonarqube
     files:
       - sonar.properties
-images:
-  - name: registry.dsop.io/platform-one/apps/sonarqube:8.4-0.1.0
-    newName: registry.dsop.io/platform-one/apps/sonarqube/sonarqube-ib
-    newTag: 8.3-community-ib-bb
-
-
 
