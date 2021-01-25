@@ -1,9 +1,0 @@
-apiVersion: kustomize.config.k8s.io/v1alpha1
-kind: Component
-
-resources:
-  - db-provisioner.yaml
-images:
-  - name: bitnami/postgresql
-    newName: registry.dsop.io/platform-one/apps/sonarqube/postgres12-ib
-    newTag: 12.3-ib
