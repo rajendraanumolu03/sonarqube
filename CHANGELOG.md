@@ -1,5 +1,12 @@
 # Changelog
 
+## Initial Helm Chart Release - 2020-01-22
+Added SAML sso integration
+
+Added istio virtual service
+
+Modified images to use ironbank and repo1
+
 ## TechPreview0801 - 2020-08-01
 Added enforced login/authentication
 
