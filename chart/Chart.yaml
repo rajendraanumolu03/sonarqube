@@ -17,3 +17,8 @@ maintainers:
     email: rjkernick@gmail.com
   - name: tsiddique
     email: tsiddique@live.com
+dependencies:
+  - name: postgresql 
+    version: "8.6.4" 
+    repository: "file:/.charts/postgresql" 
+    condition: postgresql.enabled
