@@ -13,7 +13,7 @@ metadata:
 spec:
   initContainers:
     - name: "bats"
-      image: "bats/bats:1.2.1"
+      image: "registry.dso.mil/platform-one/big-bang/apps/developer-tools/sonarqube/bats:1.2.1"
       imagePullPolicy: {{ .Values.image.pullPolicy }}
       command: ["bash", "-c"]
       args:
@@ -25,7 +25,7 @@ spec:
           name: tools
   containers:
     - name: {{ .Release.Name }}-ui-test
-      image: {{ default "bitnami/minideb-extras" .Values.tests.image }}
+      image: {{ default "registry.dso.mil/platform-one/big-bang/apps/developer-tools/sonarqube/minideb-extras:latest" .Values.tests.image }}
       imagePullPolicy: {{ .Values.image.pullPolicy }}
       command: [
         "/tools/bats/bin/bats",
