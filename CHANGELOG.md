@@ -1,6 +1,11 @@
 # Changelog
 
-## Initial Helm Chart Release - 2020-01-22
+## 9.2.6-bb.3 - 2021-03-16
+Plugins have been preinstalled into the container and made available at registry.dso.mil.
+
+InitContainers have also been pushed into registry.dso.mil until ironbank equivalents can be found.
+
+## Initial Helm Chart Release - 2021-01-22
 Added SAML sso integration
 
 Added istio virtual service
