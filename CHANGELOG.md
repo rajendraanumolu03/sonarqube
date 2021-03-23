@@ -1,5 +1,9 @@
 # Changelog
 
+## 9.2.6-bb.4 - 2021-03-22
+
+Adding ability to specify istio gateways and hosts in values file
+
 ## 9.2.6-bb.3 - 2021-03-16
 Plugins have been preinstalled into the container and made available at registry.dso.mil.
 

@@ -6,14 +6,19 @@ metadata:
   name: {{ template "sonarqube.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
+    helm.sh/chart: {{ include "sonarqube.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/part-of: sonarqube
 spec:
   gateways:
-    - istio-system/main
+  {{- range .Values.istio.sonarqube.gateways }}
+    - {{ . }}
+  {{- end }}
   hosts:
-    - "sonarqube.{{ .Values.hostname }}"
+  {{- range .Values.istio.sonarqube.hosts }}
+    - {{ tpl . $}}
+  {{- end }}
   http:
     - route:
         - destination:
