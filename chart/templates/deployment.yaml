@@ -168,10 +168,10 @@ spec:
           resources:
 {{ toYaml .Values.initContainers.resources | indent 12 }}
           command: ["/bin/sh", "-c", "until pg_isready -h {{ .Release.Name}}-postgresql -p 5432 -U {{ .Values.postgresql.postgresqlUsername }}; do sleep 2; done"]
-      {{- end }} 
           env:
           - name: POSTGRES_HOST_AUTH_METHOD
             value: "trust"      
+      {{- end }} 
       {{- if .Values.priorityClassName }}
       priorityClassName: {{ .Values.priorityClassName }}
       {{- end }}
