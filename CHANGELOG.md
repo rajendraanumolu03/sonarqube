@@ -1,5 +1,9 @@
 # Changelog
 
+## 9.2.6-bb.5 - 2021-03-22
+
+Fixed initContainer logic
+
 ## 9.2.6-bb.4 - 2021-03-22
 
 Adding ability to specify istio gateways and hosts in values file
