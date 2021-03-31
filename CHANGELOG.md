@@ -1,5 +1,9 @@
 # Changelog
 
+## 9.2.6-bb.6 - 2021-03-30
+
+Modified initContainer logic
+
 ## 9.2.6-bb.5 - 2021-03-22
 
 Fixed initContainer logic
