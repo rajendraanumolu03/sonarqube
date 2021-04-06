@@ -1,5 +1,9 @@
 # Changelog
 
+## 9.2.6-bb.7 - 2021-03-31
+
+Adding Affinity documentation
+
 ## 9.2.6-bb.6 - 2021-03-30
 
 Modified initContainer logic
@@ -36,4 +40,3 @@ Added logging instructions to docs 7/22/2020
 Added auth-oidc plugin version 2.0.0
 
 Added plugins for scanning C/C++ code 10/01/2020
-
