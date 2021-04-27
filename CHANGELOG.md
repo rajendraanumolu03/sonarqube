@@ -1,5 +1,9 @@
 # Changelog
 
+## 9.2.6-bb.8 - 2021-04-06
+
+Updated sonarqube image version to 8.7.1-community
+
 ## 9.2.6-bb.7 - 2021-03-31
 
 Adding Affinity documentation

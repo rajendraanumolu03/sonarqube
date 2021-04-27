@@ -20,7 +20,7 @@ OpenShift:
 
 image:
   repository: registry.dso.mil/platform-one/big-bang/apps/developer-tools/sonarqube/sonarqube8-community-bb
-  tag: 8.6-community-bb
+  tag: 8.7.1-community-bb
   pullPolicy: IfNotPresent
   # If using a private repository, the name of the imagePullSecret to use
   pullSecret: []
