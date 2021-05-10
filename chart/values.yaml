@@ -23,7 +23,8 @@ image:
   tag: 8.7.1-community-bb
   pullPolicy: IfNotPresent
   # If using a private repository, the name of the imagePullSecret to use
-  pullSecret: []
+  pullSecret: private-registry
+
 
 # Set security context for sonarqube pod
 securityContext:

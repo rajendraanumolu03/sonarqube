@@ -1,5 +1,8 @@
-image:
-  pullSecret: private-registry-mil
-
-istio:
-  enabled: true
+bbtests:
+  cypress:
+    artifacts: true
+    envs:
+      cypress_url: "http://sonarqube-sonarqube:9000"
+      cypress_user: "admin"
+      cypress_password: "admin"
+      cypress_newpassword: "new_admin_password"
