@@ -1,0 +1,20 @@
+// needs to be fixed
+describe('Basic Sonarqube', function() {
+  it('Check Sonarqube is accessible', function() {
+  cy.visit(Cypress.env('url'))
+  cy.get('input[name="login"]').type(Cypress.env('user'))
+  cy.get('input[name="password"]').type(Cypress.env('password'))
+  cy.contains("Log in").click()
+  cy.contains('Update your password')
+  cy.get('input[name="old_password"]').type(Cypress.env('password'))
+  cy.get('input[name="password"]').type(Cypress.env('newpassword'))
+  cy.get('input[name="password_confirmation"]').type(Cypress.env('newpassword'))
+  cy.get('button[id="change-password"]').click()
+  cy.scrollTo('topRight')
+  cy.get('a[class="dropdown-toggle navbar-avatar"]').click()
+  cy.contains("My Account").click()
+  cy.contains("Security").click()
+  cy.get('input[class="input-large spacer-right"]').type('Test Token')
+  cy.get('button[class="button js-generate-token"]').click()
+  })
+})

@@ -1,26 +1,33 @@
 # Changelog
 
-## 9.2.6-bb.8 - 2021-04-06
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-Updated sonarqube image version to 8.7.1-community
+---
+## [9.2.6-bb.9] - 2021-05-10
+### Changed
+- Moved cypress testing to the new helm test structure.
 
-## 9.2.6-bb.7 - 2021-03-31
+## [9.2.6-bb.8] - 2021-04-06
+### Update
+- Updated sonarqube image version to 8.7.1-community
 
-Adding Affinity documentation
+## [9.2.6-bb.7] - 2021-03-31
+### Added
+- Adding Affinity documentation
 
-## 9.2.6-bb.6 - 2021-03-30
+## [9.2.6-bb.6] - 2021-03-30
 
 Modified initContainer logic
 
-## 9.2.6-bb.5 - 2021-03-22
+## [9.2.6-bb.5] - 2021-03-22
 
 Fixed initContainer logic
 
-## 9.2.6-bb.4 - 2021-03-22
+## [9.2.6-bb.4] - 2021-03-22
 
 Adding ability to specify istio gateways and hosts in values file
 
-## 9.2.6-bb.3 - 2021-03-16
+## [9.2.6-bb.3] - 2021-03-16
 Plugins have been preinstalled into the container and made available at registry.dso.mil.
 
 InitContainers have also been pushed into registry.dso.mil until ironbank equivalents can be found.
