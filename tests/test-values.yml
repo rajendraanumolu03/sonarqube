@@ -1,4 +1,5 @@
 bbtests:
+  enabled: true
   cypress:
     artifacts: true
     envs:
@@ -6,3 +7,5 @@ bbtests:
       cypress_user: "admin"
       cypress_password: "admin"
       cypress_newpassword: "new_admin_password"
+networkPolicies:
+  enabled: true
