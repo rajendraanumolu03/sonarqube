@@ -10,6 +10,7 @@ describe('Basic Sonarqube', function() {
   cy.get('input[name="password"]').type(Cypress.env('newpassword'))
   cy.get('input[name="password_confirmation"]').type(Cypress.env('newpassword'))
   cy.get('button[id="change-password"]').click()
+  cy.contains("I understand the risk").click()
   cy.scrollTo('topRight')
   cy.get('a[class="dropdown-toggle navbar-avatar"]').click()
   cy.contains("My Account").click()

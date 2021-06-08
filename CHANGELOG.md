@@ -3,6 +3,15 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [9.2.6-bb.13] - 2021-06-07
+### Upgrade
+- Upgraded Sonarqube to ironbank version 8.9.
+- Bigbang plugins have been upgraded to the latest versions:
+  - dependency-check-sonar-plugin version 2.0.8
+  - sonar-c-plugin version 1.3.3.2051
+  - sonar-cxx-plugin version 2.0.2.2734
+  - sonar-zap-plugin version 2.2.0
+
 ## [9.2.6-bb.12] - 2021-06-02
 ### Modified
 - Modified helm-test network policy to be more restrictive.
