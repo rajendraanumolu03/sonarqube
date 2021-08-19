@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [9.2.6-bb.14] - 2021-08-19
+### Added
+Resource limit and request for the deployment
+
 ## [9.2.6-bb.13] - 2021-06-07
 ### Upgrade
 - Upgraded Sonarqube to ironbank version 8.9.
