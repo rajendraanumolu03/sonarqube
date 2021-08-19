@@ -122,8 +122,14 @@ initContainers:
   # securityContext: {}
   # We allow the init containers to have a separate resources declaration because
   # the initContainer does not take as much resources.
-  resources: {}
-
+  resources: 
+    limits:
+      memory: 2Gi
+      cpu: 250m
+    requests:
+      memory: 2Gi
+      cpu: 250m
+   
 ## Provide a secret containing one or more certificate files in the keys that will be added to cacerts
 ## The cacerts file will be set via SONARQUBE_WEB_JVM_OPTS and SONAR_CE_JAVAOPTS
 ##
