@@ -124,11 +124,11 @@ initContainers:
   # the initContainer does not take as much resources.
   resources: 
     limits:
-      memory: 2Gi
-      cpu: 250m
+      memory: 8Mi
+      cpu: 50m
     requests:
-      memory: 2Gi
-      cpu: 250m
+      memory: 8Mi
+      cpu: 50m
    
 ## Provide a secret containing one or more certificate files in the keys that will be added to cacerts
 ## The cacerts file will be set via SONARQUBE_WEB_JVM_OPTS and SONAR_CE_JAVAOPTS
