@@ -194,10 +194,10 @@ resources:
 # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
     cpu: 100m
-    memory: 1.8Gi
+    memory: 2Gi
   requests:
     cpu: 100m
-    memory: 1.8Gi
+    memory: 2Gi
 persistence:
   enabled: false
   ## Set annotations on pvc
