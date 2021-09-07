@@ -193,11 +193,11 @@ resources:
 # resources, such as Minikube. If you do want to specify resources, uncomment the following
 # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
-    cpu: 100m
-    memory: 1.8Gi
+    cpu: 300m
+    memory: 2.5Gi
   requests:
-    cpu: 100m
-    memory: 1.8Gi
+    cpu: 300m
+    memory: 2.5Gi
 persistence:
   enabled: false
   ## Set annotations on pvc

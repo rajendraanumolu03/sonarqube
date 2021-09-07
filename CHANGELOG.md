@@ -3,17 +3,22 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+
+## [9.2.6-bb.17] - 2021-09-06
+### Changed
+- Updated requests/limits based on nightly CI findings
+
 ## [9.2.6-bb.16] - 2021-08-30
 ### Changed
-Update init containers resource limits and requests.
+- Update init containers resource limits and requests.
 
 ## [9.2.6-bb.15] - 2021-08-19
 ### Changed
-Update resource limits and requests to guaranteed QoS
+- Update resource limits and requests to guaranteed QoS
 
 ## [9.2.6-bb.14] - 2021-08-19
 ### Added
-Resource limit and request for the deployment
+- Resource limit and request for the deployment
 
 ## [9.2.6-bb.13] - 2021-06-07
 ### Upgrade
