@@ -58,11 +58,13 @@ spec:
       imagePullSecrets:
         - name: {{ .Values.image.pullSecret }}
       {{- end }}
-      {{- if or .Values.caCerts .Values.initSysctl.enabled .Values.elasticsearch.configureNode .Values.plugins.install .Values.postgresql.enabled (and .Values.sonarProperties .Values.sonarSecretProperties) }}
       initContainers:
+      {{- if .Values.extraInitContainers }}
+{{ toYaml .Values.extraInitContainers | indent 8 }}
+      {{- end }}
       {{- if .Values.caCerts }}
         - name: ca-certs
-          image: {{ default "adoptopenjdk/openjdk11:alpine" .Values.caCerts.image }}
+          image: {{ .Values.caCerts.image }}
           imagePullPolicy: {{ .Values.image.pullPolicy  }}
           command: ["sh"]
           args: ["-c", "cp -f \"${JAVA_HOME}/lib/security/cacerts\" /tmp/certs/cacerts; if [ \"$(ls /tmp/secrets/ca-certs)\" ]; then for f in /tmp/secrets/ca-certs/*; do keytool -importcert -file \"${f}\" -alias \"$(basename \"${f}\")\" -keystore /tmp/certs/cacerts -storepass changeit -trustcacerts -noprompt; done; fi;"]
@@ -85,7 +87,7 @@ spec:
       {{- end }}
       {{- if or .Values.initSysctl.enabled .Values.elasticsearch.configureNode }}
         - name: init-sysctl
-          image: {{ default "registry.dso.mil/platform-one/big-bang/apps/developer-tools/sonarqube/busybox:1.32" .Values.initSysctl.image }}
+          image: {{ .Values.initSysctl.image }}
           imagePullPolicy: {{ .Values.image.pullPolicy  }}
           {{- if $securityContext := (default .Values.initContainers.securityContext .Values.initSysctl.securityContext) }}
           securityContext:
@@ -106,7 +108,7 @@ spec:
       {{- end }}
       {{- if .Values.plugins.install }}
         - name: install-plugins
-          image: {{ default "registry.dso.mil/platform-one/big-bang/apps/developer-tools/sonarqube/alpine-wget:latest" .Values.plugins.image }}
+          image: {{ .Values.plugins.image }}
           imagePullPolicy: {{ .Values.image.pullPolicy  }}
           command: ["sh",
             "-e",
@@ -137,7 +139,7 @@ spec:
       {{- end }}
       {{- if and .Values.sonarProperties .Values.sonarSecretProperties }}
         - name: concat-properties
-          image: {{ default "registry.dso.mil/platform-one/big-bang/apps/developer-tools/sonarqube/busybox:1.32" .Values.initContainers.image }}
+          image: {{ .Values.initContainers.image }}
           imagePullPolicy: {{ .Values.image.pullPolicy  }}
           command: ["sh",
             "-c",
@@ -173,7 +175,6 @@ spec:
           - name: POSTGRES_HOST_AUTH_METHOD
             value: "trust"      
       {{- end }} 
-      {{- end }}
       {{- if .Values.priorityClassName }}
       priorityClassName: {{ .Values.priorityClassName }}
       {{- end }}
@@ -202,9 +203,6 @@ spec:
               containerPort: {{ .Values.service.internalPort }}
               protocol: TCP
           env:
-            {{- with .Values.env }}
-            {{- . | toYaml | trim | nindent 12 }}
-            {{- end }}
             - name: SONAR_WEB_JAVAOPTS
               {{- if .Values.caCerts }}
               value: {{ printf "-Djavax.net.ssl.trustStore=%s/certs/cacerts %s" .Values.sonarqubeFolder .Values.jvmOpts | trim | quote }}
@@ -219,7 +217,10 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ template "postgresql.secret" . }}
-                  key: postgresql-password
+                  key: {{ template "postgresql.secretPasswordKey" . }}
+            {{- with .Values.env }}
+            {{- . | toYaml | trim | nindent 12 }}
+            {{- end }}
           envFrom:
             - configMapRef:
                 name: {{ template "sonarqube.fullname" . }}-postgres-config
@@ -271,7 +272,11 @@ spec:
             - mountPath: {{ .Values.sonarqubeFolder }}/data
               name: sonarqube
               subPath: data
-            {{- if .Values.plugins.install }}
+            {{- if .Values.persistence.enabled }}
+            - mountPath: {{ .Values.sonarqubeFolder }}/extensions
+              name: sonarqube
+              subPath: extensions
+            {{- else if .Values.plugins.install }}
             - mountPath: {{ .Values.sonarqubeFolder }}/extensions/downloads
               name: sonarqube
               subPath: extensions/downloads

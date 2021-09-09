@@ -1,11 +1,16 @@
+account:
+  adminPassword: new_admin_password
+  currentAdminPassword: admin
+curlContainerImage: registry1.dso.mil/ironbank/big-bang/base:8.4
+
 bbtests:
   enabled: true
   cypress:
     artifacts: true
     envs:
       cypress_url: "http://sonarqube-sonarqube:9000"
+      cypress_url_setup: "http://sonarqube-sonarqube:9000/setup"
       cypress_user: "admin"
-      cypress_password: "admin"
-      cypress_newpassword: "new_admin_password"
+      cypress_password: "new_admin_password"
 networkPolicies:
   enabled: true
