@@ -19,8 +19,8 @@ OpenShift:
   createSCC: true
 
 image:
-  repository: registry.dso.mil/platform-one/big-bang/apps/developer-tools/sonarqube/sonarqube8-community-bb
-  tag: 8.9-community-bb
+  repository: registry1.dso.mil/ironbank/big-bang/sonarqube
+  tag: 8.9-community
   pullPolicy: IfNotPresent
   # If using a private repository, the name of the imagePullSecret to use
   pullSecret: private-registry
