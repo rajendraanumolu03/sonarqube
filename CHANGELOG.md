@@ -4,6 +4,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [9.2.6-bb.17-1] - 2021-09-22
+### Changed
+- Patch for removing duplicate keys in development.yaml
+
 ## [9.2.6-bb.17] - 2021-09-06
 ### Changed
 - Updated requests/limits based on nightly CI findings
