@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [9.6.3-bb.3] - 2021-09-28
+### Added
+- Added renovate support for the Sonarqube Iron Bank image
+
 ## [9.6.3-bb.2] - 2021-09-22
 ### Changed
 - Removed duplicate regions of pod spec in deployment.
