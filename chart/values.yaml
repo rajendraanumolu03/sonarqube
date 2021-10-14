@@ -396,6 +396,7 @@ istio:
       - istio-system/main
     hosts:
       - sonarqube.{{ .Values.hostname }}
+  injection: disabled
 monitoring:
   enabled: false
   
