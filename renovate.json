@@ -5,7 +5,6 @@
     "dependencyDashboardAutoclose": "true",
     "dependencyDashboardHeader": "- [ ] Sync upstream helm chart version with updated dependencies.",
     "dependencyDashboardTitle": "Renovate: Upgrade SonarQube Package Dependencies",
-    "dependencyDashboardLabels": ["sonarqube", "renovate", "kind::chore", "team::execution"],
     "draftPR": true,
     "enabledManagers": ["helm-values", "regex"],
     "labels": ["sonarqube","Big Bang Add Ons","Package Sustainment","kind::chore", "renovate"],
