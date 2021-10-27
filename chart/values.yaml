@@ -405,3 +405,5 @@ networkPolicies:
   ingressLabels:
     app: istio-ingressgateway
     istio: ingressgateway
+  egressHttps:
+    enabled: true
