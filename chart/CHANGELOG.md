@@ -2,6 +2,7 @@
 All changes to this chart will be documented in this file.
 ## [9.6.3]
 * Fixed GH-277 by ensuring current/new admin passwords are URL escaped in the change-admin-password-hook job.
+* Add imagepull policy for admin password hook
 
 ## [9.6.2]
 * Change order of env variables to better support 7.9-lts
