@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [9.6.3-bb.11] - 2021-11-30
+### Changed
+- Changes to allow command and args on ca-certs init container to be set through value parameters
+
 ## [9.6.3-bb.10] - 2021-11-18
 ### Added
 - Added image pull policy for admin password hook job
@@ -99,38 +103,37 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Adding Affinity documentation
 
 ## [9.2.6-bb.6] - 2021-03-30
-
-Modified initContainer logic
+### Changed
+- Modified initContainer logic
 
 ## [9.2.6-bb.5] - 2021-03-22
-
-Fixed initContainer logic
+### Changed
+- Fixed initContainer logic
 
 ## [9.2.6-bb.4] - 2021-03-22
-
-Adding ability to specify istio gateways and hosts in values file
+### Added
+- Adding ability to specify istio gateways and hosts in values file
 
 ## [9.2.6-bb.3] - 2021-03-16
-Plugins have been preinstalled into the container and made available at registry.dso.mil.
+### Added
+- Plugins have been preinstalled into the container and made available at registry.dso.mil.
+- InitContainers have also been pushed into registry.dso.mil until ironbank equivalents can be found.
 
-InitContainers have also been pushed into registry.dso.mil until ironbank equivalents can be found.
+## [0.0.0-bb.2] - 2021-01-22
+### Added
+- Added SAML sso integration
+- Added istio virtual service
+### Changed
+- Modified images to use ironbank and repo1
 
-## Initial Helm Chart Release - 2021-01-22
-Added SAML sso integration
+## [0.0.0-bb.1] - 2020-08-01
+### Added
+- Added enforced login/authentication
 
-Added istio virtual service
-
-Modified images to use ironbank and repo1
-
-## TechPreview0801 - 2020-08-01
-Added enforced login/authentication
-
-## TechPreview0615 - 2020-06-15
-Initial release
-upstream version 8.3-community [Version 8.3.1 (build 34397)]
-
-Added logging instructions to docs 7/22/2020
-
-Added auth-oidc plugin version 2.0.0
-
-Added plugins for scanning C/C++ code 10/01/2020
+## [0.0.0-bb.0] - 2020-06-15
+### Added
+- Initial release
+- upstream version 8.3-community [Version 8.3.1 (build 34397)]
+- Added logging instructions to docs 7/22/2020
+- Added auth-oidc plugin version 2.0.0
+- Added plugins for scanning C/C++ code 10/01/2020

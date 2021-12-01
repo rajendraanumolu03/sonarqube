@@ -123,10 +123,10 @@ initContainers:
   # the initContainer does not take as much resources.
   resources: 
     limits:
-      memory: 8Mi
+      memory: 300Mi
       cpu: 50m
     requests:
-      memory: 8Mi
+      memory: 300Mi
       cpu: 50m
 
 extraInitContainers: {}
@@ -152,6 +152,8 @@ extraInitContainers: {}
 # caCerts:
   # image: adoptopenjdk/openjdk11:alpine
   # secret: my-secret
+  # command: ["sh"]
+  # args: ["-c", "cp -f \"${JAVA_HOME}/lib/security/cacerts\" /tmp/certs/cacerts; if [ \"$(ls /tmp/secrets/ca-certs)\" ]; then for f in /tmp/secrets/ca-certs/*; do keytool -importcert -file \"${f}\" -alias \"$(basename \"${f}\")\" -keystore /tmp/certs/cacerts -storepass changeit -trustcacerts -noprompt; done; fi"]
 
 initSysctl:
   enabled: false
