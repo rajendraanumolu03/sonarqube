@@ -1,6 +1,6 @@
 # sonarqube
 
-![Version: 9.6.3-bb.10](https://img.shields.io/badge/Version-9.6.3--bb.10-informational?style=flat-square) ![AppVersion: 8.9-community](https://img.shields.io/badge/AppVersion-8.9--community-informational?style=flat-square)
+![Version: 9.6.3-bb.11](https://img.shields.io/badge/Version-9.6.3--bb.11-informational?style=flat-square) ![AppVersion: 8.9-community](https://img.shields.io/badge/AppVersion-8.9--community-informational?style=flat-square)
 
 SonarQube is an open sourced code quality scanning tool
 
@@ -68,9 +68,9 @@ helm install sonarqube chart/
 | livenessProbe.initialDelaySeconds | int | `60` |  |
 | livenessProbe.periodSeconds | int | `30` |  |
 | livenessProbe.sonarWebContext | string | `"/"` |  |
-| initContainers.resources.limits.memory | string | `"8Mi"` |  |
+| initContainers.resources.limits.memory | string | `"300Mi"` |  |
 | initContainers.resources.limits.cpu | string | `"50m"` |  |
-| initContainers.resources.requests.memory | string | `"8Mi"` |  |
+| initContainers.resources.requests.memory | string | `"300Mi"` |  |
 | initContainers.resources.requests.cpu | string | `"50m"` |  |
 | extraInitContainers | object | `{}` |  |
 | initSysctl.enabled | bool | `false` |  |
