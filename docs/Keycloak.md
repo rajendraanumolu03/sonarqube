@@ -1,5 +1,5 @@
 # SAML Keycloak integration for Sonarqube
-[sonarqube docs](https://docs.sonarqube.org/latest/instance-administration/delegated-auth/#header-4)
+[Upstream Sonarqube Docs](https://docs.sonarqube.org/latest/instance-administration/delegated-auth/#header-4)
 ## In the Keycloak server, create a new SAML client
 Create a new client
 
@@ -55,7 +55,34 @@ Go to Administration > Configuration > General Settings > Security > SAML
 In the login form, the new button "Log in with SAML" allows users to connect with their SAML account.
 
 ## Helm Values Config example:
+
+Within BigBang:
+```yaml
+addons:
+  sonarqube:
+    sso:
+      enabled: true
+      client_id: platform1_###
+      client_secret: ###########
+      # Label is interchangeable with "provider_name"
+      # -- SonarQube SSO login button label
+      #provider_name: "P1 SSO"
+      label: "P1 SSO"
+      # -- SonarQube plaintext SAML sso certificate.
+      certificate: "M#######...="
+      # Other default options from BigBang
+      # -- SonarQube login sso attribute.
+      login: login
+      # -- SonarQube name sso attribute.
+      name: name
+      # -- SonarQube email sso attribute.
+      email: email
+      # -- (optional) SonarQube group sso attribute.
+      group: group
 ```
+
+Within Sonarqube package:
+```yaml
 sonarProperties:
   sonar.forceAuthentication: true
 # SAML SSO config
@@ -68,8 +95,8 @@ sonarProperties:
   sonar.auth.saml.certificate.secured: MILicoTCCAYkCBgFyLIEqUjaNbg...
   sonar.auth.saml.user.login: login
   sonar.auth.saml.user.name: name
-  #  sonar.auth.saml.user.email: email
-  #  sonar.auth.saml.group.name: group
+  sonar.auth.saml.user.email: email
+  sonar.auth.saml.group.name: group
 ```
 
 # OIDC Keycloak integration for Sonarqube
