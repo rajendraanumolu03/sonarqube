@@ -1,6 +1,6 @@
 # sonarqube
 
-![Version: 9.6.3-bb.11](https://img.shields.io/badge/Version-9.6.3--bb.11-informational?style=flat-square) ![AppVersion: 8.9-community](https://img.shields.io/badge/AppVersion-8.9--community-informational?style=flat-square)
+![Version: 9.6.3-bb.12](https://img.shields.io/badge/Version-9.6.3--bb.12-informational?style=flat-square) ![AppVersion: 8.9-community](https://img.shields.io/badge/AppVersion-8.9--community-informational?style=flat-square)
 
 SonarQube is an open sourced code quality scanning tool
 
@@ -126,13 +126,13 @@ helm install sonarqube chart/
 | extraConfig.secrets | list | `[]` |  |
 | extraConfig.configmaps | list | `[]` |  |
 | terminationGracePeriodSeconds | int | `60` |  |
-| hostname | string | `"bigbang.dev"` |  |
+| domain | string | `"bigbang.dev"` |  |
 | istio.enabled | bool | `false` |  |
 | istio.sonarqube.enabled | bool | `true` |  |
 | istio.sonarqube.annotations | object | `{}` |  |
 | istio.sonarqube.labels | object | `{}` |  |
 | istio.sonarqube.gateways[0] | string | `"istio-system/main"` |  |
-| istio.sonarqube.hosts[0] | string | `"sonarqube.{{ .Values.hostname }}"` |  |
+| istio.sonarqube.hosts[0] | string | `"sonarqube.{{ .Values.domain }}"` |  |
 | istio.injection | string | `"disabled"` |  |
 | monitoring.enabled | bool | `false` |  |
 | networkPolicies.enabled | bool | `false` |  |

@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [9.6.3-bb.12] - 2021-12-20
+### Changed
+- Changed Values.hostname to Values.domain for proper naming
+
 ## [9.6.3-bb.11] - 2021-11-30
 ### Changed
 - Changes to allow command and args on ca-certs init container to be set through value parameters
