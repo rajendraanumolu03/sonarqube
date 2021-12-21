@@ -384,8 +384,8 @@ extraConfig:
 terminationGracePeriodSeconds: 60
 
 # Big Bang Additions
-## Your FQDN will be ${ .Values.subdomain }.${ .Values.hostname }
-hostname: bigbang.dev
+## Your FQDN will be ${ .Values.subdomain }.${ .Values.domain }
+domain: bigbang.dev
 istio:
   # Toggle istio integration 
   enabled: false
@@ -397,7 +397,7 @@ istio:
     gateways:
       - istio-system/main
     hosts:
-      - sonarqube.{{ .Values.hostname }}
+      - sonarqube.{{ .Values.domain }}
   injection: disabled
 monitoring:
   enabled: false
