@@ -23,6 +23,15 @@
                 "image:\\s+repository:\\s+[^/]+/(?<depName>.+)\\s+tag:\\s+(?<currentValue>-community)"
             ],
             "datasourceTemplate": "docker"
+        },
+        {
+            "fileMatch": ["^chart/Chart\\.yaml$"],
+            "matchStrings": [
+                "- Sonarqube:\\s+(?<currentValue>.+)"
+            ],
+            "registryUrlTemplate": "https://registry1.dso.mil",
+            "depNameTemplate": "ironbank/big-bang/sonarqube",
+            "datasourceTemplate": "docker"
         }
     ]
 }
