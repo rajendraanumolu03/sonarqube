@@ -306,19 +306,32 @@ postgresql:
     requests:
       cpu: 100m
       memory: 200Mi
+  image:
+    registry: registry1.dso.mil
+    repository: ironbank/opensource/postgres/postgresql12
+    tag: 12.9
+    pullSecrets:
+      - private-registry
+  postgresqlConfiguration: {"listen_addresses": "*"}
+  pgHbaConfiguration: |-
+    local all all md5
+    host all all all md5
   persistence:
     enabled: true
     accessMode: ReadWriteOnce
     size: 20Gi
     storageClass:
+    mountPath: /var/lib/postgresql
+  postgresqlDataDir: /var/lib/postgresql/data
   securityContext:
     # For standard Kubernetes deployment, set enabled=true
     # If using OpenShift, enabled=false for restricted SCC and enabled=true for anyuid/nonroot SCC
     enabled: true
     # fsGroup and runAsUser specifications below are not applied if enabled=false. enabled=false is the required setting for OpenShift "restricted SCC" to work successfully.
     # postgresql dockerfile sets user as 1001
-    fsGroup: 1001
-    runAsUser: 1001
+    fsGroup: 26
+    runAsUser: 26
+    runAsGroup: 26
   volumePermissions:
     # For standard Kubernetes deployment, set enabled=false
     # For OpenShift, set enabled=true and ensure to set volumepermissions.securitycontext.runAsUser below.

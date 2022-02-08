@@ -1,6 +1,6 @@
 # sonarqube
 
-![Version: 9.6.3-bb.14](https://img.shields.io/badge/Version-9.6.3--bb.14-informational?style=flat-square) ![AppVersion: 8.9-community](https://img.shields.io/badge/AppVersion-8.9--community-informational?style=flat-square)
+![Version: 9.6.3-bb.15](https://img.shields.io/badge/Version-9.6.3--bb.15-informational?style=flat-square) ![AppVersion: 8.9-community](https://img.shields.io/badge/AppVersion-8.9--community-informational?style=flat-square)
 
 SonarQube is an open sourced code quality scanning tool
 
@@ -107,10 +107,17 @@ helm install sonarqube chart/
 | postgresql.resources.limits.memory | string | `"200Mi"` |  |
 | postgresql.resources.requests.cpu | string | `"100m"` |  |
 | postgresql.resources.requests.memory | string | `"200Mi"` |  |
+| postgresql.image.registry | string | `"registry1.dso.mil"` |  |
+| postgresql.image.repository | string | `"ironbank/opensource/postgres/postgresql12"` |  |
+| postgresql.image.tag | float | `12.9` |  |
+| postgresql.image.pullSecrets[0] | string | `"private-registry"` |  |
+| postgresql.postgresqlConfiguration.listen_addresses | string | `"*"` |  |
+| postgresql.pgHbaConfiguration | string | `"local all all md5\nhost all all all md5"` |  |
 | postgresql.persistence.enabled | bool | `true` |  |
 | postgresql.persistence.accessMode | string | `"ReadWriteOnce"` |  |
 | postgresql.persistence.size | string | `"20Gi"` |  |
 | postgresql.persistence.storageClass | string | `nil` |  |
+| postgresql.postgresqlDataDir | string | `"/var/lib/postgresql/data"` |  |
 | postgresql.securityContext.enabled | bool | `true` |  |
 | postgresql.securityContext.fsGroup | int | `1001` |  |
 | postgresql.securityContext.runAsUser | int | `1001` |  |

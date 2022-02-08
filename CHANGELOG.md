@@ -3,6 +3,14 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [9.6.3-bb.15] - 2022-1-02
+### Added
+- Added renovate check to track postgresql and big-bang/base container images
+
+### Changed
+- Dev/CI Posgresql sub-chart version bump to `12.7.0` from `11.7.0`
+- CI big-bang/base image bump to version `1.0.0`
+
 ## [9.6.3-bb.14] - 2022-1-31
 ### Changed
 - Update Chart.yaml to follow new standardization for release automation

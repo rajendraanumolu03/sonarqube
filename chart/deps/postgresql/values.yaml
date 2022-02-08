@@ -13,9 +13,11 @@ global:
 ## ref: https://hub.docker.com/r/bitnami/postgresql/tags/
 ##
 image:
-  registry: registry.dso.mil
-  repository: platform-one/big-bang/apps/developer-tools/sonarqube/postgresql
-  tag: 11.7.0-debian-10-r26
+  registry: registry1.dso.mil
+  repository: ironbank/opensource/postgres/postgresql12
+  tag: 12.9
+  pullSecrets:
+    - private-registry
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
   ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
@@ -46,11 +48,13 @@ image:
 ## volumePermissions: Change the owner of the persist volume mountpoint to RunAsUser:fsGroup
 ##
 volumePermissions:
-  enabled: false
+  enabled: true
   image:
-    registry: registry.dso.mil
-    repository: platform-one/big-bang/apps/developer-tools/sonarqube/minideb:busterbitnami/minideb
-    tag: buster
+    registry: registry1.dso.mil
+    repository: ironbank/big-bang/base
+    tag: 1.0.0
+    pullSecrets:
+      - private-registry
     ## Specify a imagePullPolicy
     ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
     ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
@@ -85,8 +89,9 @@ volumePermissions:
 ##
 securityContext:
   enabled: true
-  fsGroup: 1001
-  runAsUser: 1001
+  fsGroup: 26
+  runAsUser: 26
+  runAsGroup: 26
 
 ## Pod Service Account
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
@@ -136,7 +141,7 @@ postgresqlUsername: postgres
 ## PostgreSQL data dir
 ## ref: https://github.com/bitnami/bitnami-docker-postgresql/blob/master/README.md
 ##
-postgresqlDataDir: /bitnami/postgresql/data
+postgresqlDataDir: /var/lib/postgresql/data
 
 ## An array to add extra environment variables
 ## For example:
@@ -167,7 +172,7 @@ extraEnv: []
 ## Alternatively, you can put your postgresql.conf under the files/ directory
 ## ref: https://www.postgresql.org/docs/current/static/runtime-config.html
 ##
-# postgresqlConfiguration:
+postgresqlConfiguration: {"listen_addresses": "*"}
 
 ## PostgreSQL extended configuration
 ## As above, but _appended_ to the main configuration
@@ -180,7 +185,10 @@ extraEnv: []
 ## Specify content for pg_hba.conf
 ## Default: do not create pg_hba.conf
 ## Alternatively, you can put your pg_hba.conf under the files/ directory
-# pgHbaConfiguration: |-
+pgHbaConfiguration: |-
+  local all all md5
+  host all all all md5
+
 #   local all all trust
 #   host all all localhost trust
 #   host mydatabase mysuser 192.168.0.0/24 md5
@@ -297,12 +305,12 @@ persistence:
   ## The path the volume will be mounted at, useful when using different
   ## PostgreSQL images.
   ##
-  mountPath: /bitnami/postgresql
+  mountPath: /var/lib/postgresql
 
   ## The subdirectory of the volume to mount to, useful in dev environments
   ## and one PV for multiple services.
   ##
-  subPath: ""
+  subPath: "pgdata"
 
   # storageClass: "-"
   accessModes:
@@ -479,16 +487,16 @@ metrics:
       #     description: replication for {{ template "postgresql.fullname" . }} PostgreSQL is lagging by {{ "{{ $value }}" }} hour(s).
       #     summary: PostgreSQL replication is lagging by {{ "{{ $value }}" }} hour(s).
   image:
-    registry: registry.dso.mil
-    repository: platform-one/big-bang/apps/developer-tools/sonarqube/postgres-exporter
-    tag: 0.8.0-debian-10-r42
+    registry: registry1.dso.mil
+    repository: ironbank/bitnami/postgres-exporter
+    tag: 0.10.0
     pullPolicy: IfNotPresent
     ## Optionally specify an array of imagePullSecrets.
     ## Secrets must be manually created in the namespace.
     ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
     ##
-    # pullSecrets:
-    #   - myRegistryKeySecretName
+    pullSecrets:
+      - private-registry
   ## Define additional custom metrics
   ## ref: https://github.com/wrouesnel/postgres_exporter#adding-new-metrics-via-a-config-file
   # customMetrics:
