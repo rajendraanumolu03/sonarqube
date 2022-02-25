@@ -3,6 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [9.6.3-bb.17] - 2022-2-25
+
+### Changed
+- Updated `deploymentStrategy` in `values.yaml` to explicitly define the `Recreate` strategy
+
 ## [9.6.3-bb.16] - 2022-2-15
 
 ### Changed
