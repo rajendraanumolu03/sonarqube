@@ -1,6 +1,6 @@
 # sonarqube
 
-![Version: 9.6.3-bb.16](https://img.shields.io/badge/Version-9.6.3--bb.16-informational?style=flat-square) ![AppVersion: 8.9-community](https://img.shields.io/badge/AppVersion-8.9--community-informational?style=flat-square)
+![Version: 9.6.3-bb.17](https://img.shields.io/badge/Version-9.6.3--bb.17-informational?style=flat-square) ![AppVersion: 8.9-community](https://img.shields.io/badge/AppVersion-8.9--community-informational?style=flat-square)
 
 SonarQube is an open sourced code quality scanning tool
 
@@ -36,7 +36,7 @@ helm install sonarqube chart/
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | replicaCount | int | `1` |  |
-| deploymentStrategy | object | `{}` |  |
+| deploymentStrategy.type | string | `"Recreate"` |  |
 | OpenShift.enabled | bool | `false` |  |
 | OpenShift.createSCC | bool | `true` |  |
 | image.repository | string | `"registry1.dso.mil/ironbank/big-bang/sonarqube"` |  |
@@ -117,10 +117,12 @@ helm install sonarqube chart/
 | postgresql.persistence.accessMode | string | `"ReadWriteOnce"` |  |
 | postgresql.persistence.size | string | `"20Gi"` |  |
 | postgresql.persistence.storageClass | string | `nil` |  |
+| postgresql.persistence.mountPath | string | `"/var/lib/postgresql"` |  |
 | postgresql.postgresqlDataDir | string | `"/var/lib/postgresql/data"` |  |
 | postgresql.securityContext.enabled | bool | `true` |  |
-| postgresql.securityContext.fsGroup | int | `1001` |  |
-| postgresql.securityContext.runAsUser | int | `1001` |  |
+| postgresql.securityContext.fsGroup | int | `26` |  |
+| postgresql.securityContext.runAsUser | int | `26` |  |
+| postgresql.securityContext.runAsGroup | int | `26` |  |
 | postgresql.volumePermissions.enabled | bool | `false` |  |
 | postgresql.volumePermissions.securityContext.runAsUser | int | `0` |  |
 | postgresql.shmVolume.chmod.enabled | bool | `false` |  |
