@@ -176,7 +176,7 @@ spec:
       {{- end }}
       {{- if .Values.postgresql.enabled }}      
         - name: "wait-for-db"
-          image: registry1.dso.mil/ironbank/opensource/postgres/postgresql96:9.6.20
+          image: {{ .Values.waitForDb.image }}
           imagePullPolicy: {{ .Values.image.pullPolicy  }}
           resources:
 {{ toYaml .Values.initContainers.resources | indent 12 }}

@@ -3,6 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [9.6.3-bb.20] - 2022-3-17
+
+### Changed
+- Added value for the previously hardcoded `wait-for-db` initContainer image
+
 ## [9.6.3-bb.19] - 2022-3-9
 
 ### Changed
