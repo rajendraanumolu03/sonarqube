@@ -174,7 +174,7 @@ spec:
             {{- . | toYaml | trim | nindent 12 }}
           {{- end }}
       {{- end }}
-      {{- if .Values.postgresql.enabled }}      
+      {{- if and .Values.postgresql.enabled (eq (include "deployment.waitForDb.compatible" .) "true") }}      
         - name: "wait-for-db"
           image: {{ .Values.waitForDb.image }}
           imagePullPolicy: {{ .Values.image.pullPolicy  }}
@@ -184,7 +184,7 @@ spec:
           env:
           - name: POSTGRES_HOST_AUTH_METHOD
             value: "trust"      
-      {{- end }} 
+      {{- end }}
       {{- if .Values.priorityClassName }}
       priorityClassName: {{ .Values.priorityClassName }}
       {{- end }}

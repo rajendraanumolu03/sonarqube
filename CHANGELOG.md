@@ -3,28 +3,28 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
-## [9.6.3-bb.20] - 2022-3-17
+## [9.6.3-bb.21] - 2022-03-18
+### Added
+- Add default PeerAuthentication to enable STRICT mTLS
+- Add `wait-for-db` initContainer compatibility check
 
+## [9.6.3-bb.20] - 2022-3-17
 ### Changed
 - Added value for the previously hardcoded `wait-for-db` initContainer image
 
 ## [9.6.3-bb.19] - 2022-3-9
-
 ### Changed
 - Updated change password hook deletion policy
 
 ## [9.6.3-bb.18] - 2022-3-9
-
 ### Changed
 - Updated postgres exporter image to 0.10.1
 
 ## [9.6.3-bb.17] - 2022-2-25
-
 ### Changed
 - Updated `deploymentStrategy` in `values.yaml` to explicitly define the `Recreate` strategy
 
 ## [9.6.3-bb.16] - 2022-2-15
-
 ### Changed
 - Updated default-deny-all network policy to deny all. 
 

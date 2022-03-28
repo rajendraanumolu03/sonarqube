@@ -73,6 +73,18 @@ true
 {{- end -}}
 
 {{/*
+Deployment wait-for-db init container compatibility check.
+wait-for-db incompatible with istio in STRICT mTLS mode
+*/}}
+{{- define "deployment.waitForDb.compatible" -}}
+{{- if and .Values.istio.enabled (eq .Values.istio.injection "enabled") (eq .Values.istio.mtls.mode "STRICT") -}} 
+false
+{{- else -}} 
+true
+{{- end -}}
+{{- end -}}
+
+{{/*
 Create chart name and version as used by the chart label.
 */}}
 {{- define "sonarqube.chart" -}}

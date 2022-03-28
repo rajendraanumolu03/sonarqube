@@ -1,6 +1,6 @@
 # sonarqube
 
-![Version: 9.6.3-bb.20](https://img.shields.io/badge/Version-9.6.3--bb.20-informational?style=flat-square) ![AppVersion: 8.9-community](https://img.shields.io/badge/AppVersion-8.9--community-informational?style=flat-square)
+![Version: 9.6.3-bb.21](https://img.shields.io/badge/Version-9.6.3--bb.21-informational?style=flat-square) ![AppVersion: 8.9-community](https://img.shields.io/badge/AppVersion-8.9--community-informational?style=flat-square)
 
 SonarQube is an open sourced code quality scanning tool
 
@@ -138,6 +138,8 @@ helm install sonarqube chart/
 | terminationGracePeriodSeconds | int | `60` |  |
 | domain | string | `"bigbang.dev"` |  |
 | istio.enabled | bool | `false` |  |
+| istio.mtls | object | `{"mode":"STRICT"}` | Default argocd peer authentication |
+| istio.mtls.mode | string | `"STRICT"` | STRICT = Allow only mutual TLS traffic, PERMISSIVE = Allow both plain text and mutual TLS traffic |
 | istio.sonarqube.enabled | bool | `true` |  |
 | istio.sonarqube.annotations | object | `{}` |  |
 | istio.sonarqube.labels | object | `{}` |  |
