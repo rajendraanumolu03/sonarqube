@@ -1,6 +1,6 @@
 # sonarqube
 
-![Version: 9.6.3-bb.23](https://img.shields.io/badge/Version-9.6.3--bb.23-informational?style=flat-square) ![AppVersion: 8.9-community](https://img.shields.io/badge/AppVersion-8.9--community-informational?style=flat-square)
+![Version: 9.6.3-bb.24](https://img.shields.io/badge/Version-9.6.3--bb.24-informational?style=flat-square) ![AppVersion: 8.9-community](https://img.shields.io/badge/AppVersion-8.9--community-informational?style=flat-square)
 
 SonarQube is an open sourced code quality scanning tool
 
@@ -45,6 +45,7 @@ helm install sonarqube chart/
 | image.pullSecret | string | `"private-registry"` |  |
 | securityContext.fsGroup | int | `1000` |  |
 | containerSecurityContext.runAsUser | int | `1000` |  |
+| containerSecurityContext.runAsGroup | int | `1000` |  |
 | elasticsearch.configureNode | bool | `false` |  |
 | elasticsearch.bootstrapChecks | bool | `true` |  |
 | service.type | string | `"ClusterIP"` |  |
