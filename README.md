@@ -1,6 +1,6 @@
 # sonarqube
 
-![Version: 9.6.3-bb.24](https://img.shields.io/badge/Version-9.6.3--bb.24-informational?style=flat-square) ![AppVersion: 8.9-community](https://img.shields.io/badge/AppVersion-8.9--community-informational?style=flat-square)
+![Version: 9.6.3-bb.25](https://img.shields.io/badge/Version-9.6.3--bb.25-informational?style=flat-square) ![AppVersion: 8.9-community](https://img.shields.io/badge/AppVersion-8.9--community-informational?style=flat-square)
 
 SonarQube is an open sourced code quality scanning tool
 
@@ -74,7 +74,7 @@ helm install sonarqube chart/
 | initContainers.resources.requests.memory | string | `"300Mi"` |  |
 | initContainers.resources.requests.cpu | string | `"50m"` |  |
 | extraInitContainers | object | `{}` |  |
-| waitForDb.image | string | `"registry1.dso.mil/ironbank/opensource/postgres/postgresql96:9.6.20"` |  |
+| waitForDb.image | string | `"registry1.dso.mil/ironbank/opensource/postgres/postgresql12:12.9"` |  |
 | initSysctl.enabled | bool | `false` |  |
 | initSysctl.vmMaxMapCount | int | `524288` |  |
 | initSysctl.fsFileMax | int | `131072` |  |
