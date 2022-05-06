@@ -1,6 +1,6 @@
 # sonarqube
 
-![Version: 9.6.3-bb.25](https://img.shields.io/badge/Version-9.6.3--bb.25-informational?style=flat-square) ![AppVersion: 8.9-community](https://img.shields.io/badge/AppVersion-8.9--community-informational?style=flat-square)
+![Version: 1.0.26-bb.0](https://img.shields.io/badge/Version-1.0.26--bb.0-informational?style=flat-square) ![AppVersion: 8.9.8-community](https://img.shields.io/badge/AppVersion-8.9.8--community-informational?style=flat-square)
 
 SonarQube is an open sourced code quality scanning tool
 
@@ -40,7 +40,7 @@ helm install sonarqube chart/
 | OpenShift.enabled | bool | `false` |  |
 | OpenShift.createSCC | bool | `true` |  |
 | image.repository | string | `"registry1.dso.mil/ironbank/big-bang/sonarqube"` |  |
-| image.tag | string | `"8.9-community"` |  |
+| image.tag | string | `"8.9.8-community"` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.pullSecret | string | `"private-registry"` |  |
 | securityContext.fsGroup | int | `1000` |  |
@@ -74,7 +74,7 @@ helm install sonarqube chart/
 | initContainers.resources.requests.memory | string | `"300Mi"` |  |
 | initContainers.resources.requests.cpu | string | `"50m"` |  |
 | extraInitContainers | object | `{}` |  |
-| waitForDb.image | string | `"registry1.dso.mil/ironbank/opensource/postgres/postgresql12:12.9"` |  |
+| waitForDb.image | string | `"registry1.dso.mil/ironbank/opensource/postgres/postgresql12:12.10"` |  |
 | initSysctl.enabled | bool | `false` |  |
 | initSysctl.vmMaxMapCount | int | `524288` |  |
 | initSysctl.fsFileMax | int | `131072` |  |
@@ -111,7 +111,7 @@ helm install sonarqube chart/
 | postgresql.resources.requests.memory | string | `"200Mi"` |  |
 | postgresql.image.registry | string | `"registry1.dso.mil"` |  |
 | postgresql.image.repository | string | `"ironbank/opensource/postgres/postgresql12"` |  |
-| postgresql.image.tag | float | `12.9` |  |
+| postgresql.image.tag | string | `"12.10"` |  |
 | postgresql.image.pullSecrets[0] | string | `"private-registry"` |  |
 | postgresql.postgresqlConfiguration.listen_addresses | string | `"*"` |  |
 | postgresql.pgHbaConfiguration | string | `"local all all md5\nhost all all all md5"` |  |
