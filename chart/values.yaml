@@ -253,6 +253,9 @@ emptyDir: {}
 # For example:
 sonarProperties:
   sonar.forceAuthentication: true
+  sonar.ce.javaAdditionalOpts: "-Dcom.redhat.fips=false"
+  sonar.search.javaAdditionalOpts: "-Dcom.redhat.fips=false"
+  sonar.web.javaAdditionalOpts: "-Dcom.redhat.fips=false"
 
 # SAML SSO config
 #  sonar.core.serverBaseURL:
