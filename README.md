@@ -1,6 +1,6 @@
 # sonarqube
 
-![Version: 1.0.26-bb.0](https://img.shields.io/badge/Version-1.0.26--bb.0-informational?style=flat-square) ![AppVersion: 8.9.8-community](https://img.shields.io/badge/AppVersion-8.9.8--community-informational?style=flat-square)
+![Version: 1.0.26-bb.1](https://img.shields.io/badge/Version-1.0.26--bb.1-informational?style=flat-square) ![AppVersion: 8.9.8-community](https://img.shields.io/badge/AppVersion-8.9.8--community-informational?style=flat-square)
 
 SonarQube is an open sourced code quality scanning tool
 
@@ -99,6 +99,9 @@ helm install sonarqube chart/
 | persistence.mounts | list | `[]` |  |
 | emptyDir | object | `{}` |  |
 | sonarProperties."sonar.forceAuthentication" | bool | `true` |  |
+| sonarProperties."sonar.ce.javaAdditionalOpts" | string | `"-Dcom.redhat.fips=false"` |  |
+| sonarProperties."sonar.search.javaAdditionalOpts" | string | `"-Dcom.redhat.fips=false"` |  |
+| sonarProperties."sonar.web.javaAdditionalOpts" | string | `"-Dcom.redhat.fips=false"` |  |
 | jdbcDatabaseType | string | `"postgresql"` |  |
 | postgresql.enabled | bool | `true` |  |
 | postgresql.postgresqlUsername | string | `"sonarUser"` |  |
