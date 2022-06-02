@@ -1,8 +1,8 @@
 apiVersion: v1
 name: sonarqube
-description: SonarQube is an open sourced code quality scanning tool
-version: 1.0.26-bb.1
-appVersion: 8.9.8-community
+description: SonarQube offers Code Quality and Code Security analysis for up to 27 languages. Find Bugs, Vulnerabilities, Security Hotspots and Code Smells throughout your workflow.
+version: 1.2.0-bb.0
+appVersion: 9.2.0
 keywords:
   - coverage
   - security
@@ -12,11 +12,26 @@ home: https://www.sonarqube.org/
 icon: https://www.sonarqube.org/assets/logo-31ad3115b1b4b120f3d1efd63e6b13ac9f1f89437f0cf6881cc4d8b5603a52b4.svg
 sources:
   - https://github.com/SonarSource/docker-sonarqube
+kubeVersion: '>= 1.19.0-0'
 maintainers:
-  - name: rjkernick
-    email: rjkernick@gmail.com
-  - name: tsiddique
-    email: tsiddique@live.com
+  - name: tobias-trabelsi-sonarsource
+    email: tobias.trabelsi+helm@sonarsource.com
 annotations:
   bigbang.dev/applicationVersions: |
-    - Sonarqube: 8.9.8-community
+    - Sonarqube: 9.2-community
+  artifacthub.io/links: |
+    - name: support
+      url: https://community.sonarsource.com/
+  artifacthub.io/changes: |
+    - kind: added
+      description: "added link to community support forum"
+    - kind: changed
+      description: "Use liveness endpoint instead of helth endpoint for liveness probe"
+    - kind: fixed
+      description: "fixed missing POD level security context for stateful-set deployment"
+    - kind: changed
+      description: "updated SonarQube to 9.2.0"
+  artifacthub.io/containsSecurityUpdates: "false"
+  artifacthub.io/images: |
+    - name: sonarqube
+      image: sonarqube:9.2.0-community

@@ -1,6 +1,11 @@
 # Default values for sonarqube.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
+
+deploymentType: "StatefulSet"
+
+# If the deployment Type is set to Deployment sonarqube is deployed as a replica set
+# There should not be more than 1 sonarqube instance connected to the same database
 replicaCount: 1
 
  # This will use the default deployment strategy unless it is overriden
@@ -20,8 +25,9 @@ OpenShift:
   createSCC: true
 
 image:
-  repository: registry1.dso.mil/ironbank/big-bang/sonarqube
-  tag: 8.9.8-community
+  #repository: registry1.dso.mil/ironbank/sonarsource/sonarqube/sonarqube9-community
+  repository: registry.dso.mil/platform-one/big-bang/apps/developer-tools/sonarqube/sonarqube9-community-bb
+  tag: 9.2-community
   pullPolicy: IfNotPresent
   # If using a private repository, the name of the imagePullSecret to use
   pullSecret: private-registry
@@ -29,12 +35,12 @@ image:
 # Set security context for sonarqube pod
 securityContext:
   fsGroup: 1000
+  runAsGroup: 1000
 
 # Set security context for sonarqube container
 containerSecurityContext:
   # Sonarqube dockerfile creates sonarqube user as UID and GID 1000
   runAsUser: 1000
-  runAsGroup: 1000
 
 # Settings to configure elasticsearch host requirements
 elasticsearch:
@@ -53,11 +59,16 @@ service:
   # loadBalancerSourceRanges:
   #   - 0.0.0.0/0
   # loadBalancerIP: 1.2.3.4
+
+# also install the nginx ingress helm chart
+nginx:
+  enabled: false
+
 ingress:
   enabled: false
   # Used to create an Ingress record.
   hosts:
-    - name: sonar.organization.com
+    - name: sonarqube.your-org.com
       # Different clouds or configurations might need /* as the default path
       path: /
       # For additional control over serviceName and servicePort
@@ -69,6 +80,10 @@ ingress:
   # This property allows for reports up to a certain size to be uploaded to SonarQube
   # nginx.ingress.kubernetes.io/proxy-body-size: "8m"
 
+  # Set ingressClassName if kubernetes version is >= 1.18
+  # Reference: https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/
+  # ingressClassName: nginx
+
 # Additional labels for Ingress manifest file
   # labels:
   #  traffic-type: external
@@ -79,17 +94,35 @@ ingress:
   #   hosts:
   #     - chart-example.local
 
+route:
+  enabled: false
+
+  # Add tls section to secure traffic. TODO: extend this section with other secure route settings
+  # Comment this out if you want plain http route created.
+  tls:
+    termination: edge
+
 # Affinity for pod assignment
 # Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
 affinity: {}
 
 # Tolerations for pod assignment
 # Ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+# taint a node with the following command to mark it as not schedulable for new pods
+# kubectl taint nodes <node> sonarqube=true:NoSchedule
+# The following statement will tolerate this taint and as such reverse a node for sonarqube
 tolerations: []
+#  - key: "sonarqube"
+#    operator: "Equal"
+#    value: "true"
+#    effect: "NoSchedule"
 
 # Node labels for pod assignment
 # Ref: https://kubernetes.io/docs/user-guide/node-selection/
+# add a label to a node with the following command
+# kubectl label node <node> sonarqube=true
 nodeSelector: {}
+#  sonarqube: "true"
 
 # hostAliases allows the modification of the hosts file inside a container
 hostAliases: []
@@ -106,9 +139,11 @@ readinessProbe:
   # A trailing "/" must be included
   sonarWebContext: /
   # sonarWebContext: /sonarqube/
+
 livenessProbe:
   initialDelaySeconds: 60
   periodSeconds: 30
+  failureThreshold: 6
   # If an ingress *path* other than the root (/) is defined, it should be reflected here
   # A trailing "/" must be included
   sonarWebContext: /
@@ -116,14 +151,23 @@ livenessProbe:
   # If an ingress *path* is defined, it should be reflected here
   # sonar.web.context: /sonarqube
 
+startupProbe:
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  failureThreshold: 24
+  # If an ingress *path* other than the root (/) is defined, it should be reflected here
+  # A trailing "/" must be included
+  sonarWebContext: /
+  # sonarWebContext: /sonarqube/
+
 initContainers:
-  # image: 
+  # image: busybox:1.32
   # We allow the init containers to have a separate security context declaration because
   # the initContainer may not require the same as SonarQube.
   # securityContext: {}
   # We allow the init containers to have a separate resources declaration because
   # the initContainer does not take as much resources.
-  resources: 
+  resources:
     limits:
       memory: 300Mi
       cpu: 50m
@@ -131,44 +175,71 @@ initContainers:
       memory: 300Mi
       cpu: 50m
 
-extraInitContainers: {}
 # Extra init containers to e.g. download required artifacts
-#  - name: "prometheus-exporter-downloader"
-#    image: ""
-#    imagePullPolicy: "IfNotPresent"
-#    securityContext:
-#      runAsNonRoot: true
-#    command:
-#      - wget
-#      - "-O"
-#      - "/downloads/jmx_prometheus_javaagent.jar"
-#      - ${JMX_EXPORTER_URL}
-#    volumeMounts:
-#      - name: "downloads"
-#        mountPath: "/downloads"
+extraInitContainers: {}
 
-waitForDb:
-  image: registry1.dso.mil/ironbank/opensource/postgres/postgresql12:12.10
+## Array of extra containers to run alongside the sonarqube container
+##
+## Example:
+## - name: myapp-container
+##   image: busybox
+##   command: ['sh', '-c', 'echo Hello && sleep 3600']
+##
+extraContainers: []
 
 ## Provide a secret containing one or more certificate files in the keys that will be added to cacerts
 ## The cacerts file will be set via SONARQUBE_WEB_JVM_OPTS and SONAR_CE_JAVAOPTS
 ##
-# caCerts:
+## caCerts:
   # image: adoptopenjdk/openjdk11:alpine
-  # secret: my-secret
-  # command: ["sh"]
-  # args: ["-c", "cp -f \"${JAVA_HOME}/lib/security/cacerts\" /tmp/certs/cacerts; if [ \"$(ls /tmp/secrets/ca-certs)\" ]; then for f in /tmp/secrets/ca-certs/*; do keytool -importcert -file \"${f}\" -alias \"$(basename \"${f}\")\" -keystore /tmp/certs/cacerts -storepass changeit -trustcacerts -noprompt; done; fi"]
+  # secret: your-secret
 
 initSysctl:
-  enabled: false
+  enabled: true
   vmMaxMapCount: 524288
   fsFileMax: 131072
   nofile: 131072
   nproc: 8192
-  # image: 
+  # image: busybox:1.32
   securityContext:
     privileged: true
   # resources: {}
+
+initFs:
+  enabled: true
+  # image: busybox:1.32
+  securityContext:
+    privileged: true
+
+prometheusExporter:
+  enabled: true
+  # jmx_prometheus_javaagent version to download from Maven Central
+  version: "0.16.0"
+  # Alternative full download URL for the jmx_prometheus_javaagent.jar (overrides prometheusExporter.version)
+  # downloadURL: ""
+  # if you need to ignore TLS certificates for whatever reason enable the following flag
+  noCheckCertificate: false
+
+  # Ports for the jmx prometheus agent to export metrics at
+  webBeanPort: 8000
+  ceBeanPort: 8001
+
+  config:
+    rules:
+      - pattern: ".*"
+  # Overrides config for the CE process Prometheus exporter (by default, the same rules are used for both the Web and CE processes).
+  # ceConfig:
+  #   rules:
+  #     - pattern: ".*"
+  # image: curlimages/curl:7.76.1
+  # For use behind a corporate proxy when downloading prometheus
+  # httpProxy: ""
+  # httpsProxy: ""
+  # noProxy: ""
+  # Setting the security context to root as the /data volume is owned by root at this stage
+  securityContext:
+    runAsUser: 0
+    runAsGroup: 0
 
 # List of plugins to install.
 # For example:
@@ -185,7 +256,7 @@ plugins:
   # httpsProxy: ""
   # noProxy: ""
 
-  # image: 
+  # image: curlimages/curl:7.76.1
   # resources: {}
 
   # .netrc secret file with a key "netrc" to use basic auth while downloading plugins
@@ -193,11 +264,21 @@ plugins:
 
   # Set to true to not validate the server's certificate to download plugin
   noCheckCertificate: false
+  securityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
 
 ## Values to add to SONARQUBE_WEB_JVM_OPTS
 ##
 # jvmOpts: "-Djava.net.preferIPv4Stack=true"
 jvmOpts: ""
+
+## Values to add to SONAR_CE_JAVAOPTS
+jvmCeOpts: ""
+
+## a monitoring passcode needs to be defined in order to get reasonable probe results
+# not setting the monitoring passcode will result in a deployment that will never be ready
+monitoringPasscode: "define_it"
 
 ## Environment variables to attach to the pods
 ##
@@ -208,17 +289,17 @@ jvmOpts: ""
 # Set annotations for pods
 annotations: {}
 
+## We usually don't make specific ressource recommandations, as they are heavily dependend on
+## The usage of SonarQube and the surrounding infrastructure.
+## Adjust these values to your needs, but make sure that the memory limit is never under 4 GB
 resources:
-# We usually recommend not to specify default resources and to leave this as a conscious
-# choice for the user. This also increases chances charts run on environments with little
-# resources, such as Minikube. If you do want to specify resources, uncomment the following
-# lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
     cpu: 300m
     memory: 2.5Gi
   requests:
     cpu: 300m
     memory: 2.5Gi
+
 persistence:
   enabled: false
   ## Set annotations on pvc
@@ -237,6 +318,7 @@ persistence:
   storageClass:
   accessMode: ReadWriteOnce
   size: 10Gi
+  uid: 1000
 
   ## Specify extra volumes. Refer to ".spec.volumes" specification : https://kubernetes.io/fr/docs/concepts/storage/volumes/
   volumes: []
@@ -270,9 +352,6 @@ sonarProperties:
 #  sonar.auth.saml.user.email:
 #  sonar.auth.saml.group.name:
 
-#   sonar.security.realm: LDAP
-#   ldap.url: ldaps://organization.com
-
 # Additional sonar properties to load from a secret with a key "secret.properties" (must be a string)
 # sonarSecretProperties:
 
@@ -281,24 +360,53 @@ sonarProperties:
 # The 'sonar.secretKeyPath' property will be set automatically.
 # sonarSecretKey: "settings-encryption-secret"
 
-## JDBC Database Type; by default postgresql. To use a different Database type, adjust
-jdbcDatabaseType: postgresql
-
-## Override JDBC URL
-# jdbcUrlOverride: "jdbc:postgresql://myPostgress/myDatabase;socketTimeout=1500"
+## Override JDBC values
+## for external Databases
+jdbcOverwrite:
+  enable: false
+  # The JDBC url of the external DB
+  jdbcUrl: "jdbc:postgresql://myPostgress/myDatabase?socketTimeout=1500"
+  # The DB user that should be used for the JDBC connection
+  jdbcUsername: "sonarUser"
+  # Use this if you don't mind the DB password getting stored in plain text within the values file
+  jdbcPassword: "sonarPass"
+  ## Alternatively, use a pre-existing k8s secret containing the DB password
+  # jdbcSecretName: "sonarqube-jdbc"
+  ## and the secretValueKey of the password found within that secret
+  # jdbcSecretPasswordKey: "jdbc-password"
 
 ## Configuration values for postgresql dependency
 ## ref: https://github.com/kubernetes/charts/blob/master/stable/postgresql/README.md
 postgresql:
   # Enable to deploy the PostgreSQL chart
   enabled: true
+  ## postgresql Chart global settings
+  # global:
+  #   imageRegistry: ''
+  #   imagePullSecrets: ''
+  ## bitnami/postgres image tag
+  # image:
+  #   tag: 11.7.0-debian-10-r9
+  image: 
+    registry: registry1.dso.mil
+    repository: ironbank/opensource/postgres/postgresql12
+    tag: "12.10"
+    pullSecrets:
+      - private-registry
+  postgresqlConfiguration: {"listen_addresses": "*"}
+  pgHbaConfiguration: |-
+    local all all md5
+    host all all all md
   # To use an external PostgreSQL instance, set enabled to false and uncomment
   # the line below:
+  # DEPRECATED: please use the 'jdbcOverwrite' values to connect to an external Postgres DB
   # postgresqlServer: ""
   # To use an external secret for the password for an external PostgreSQL
   # instance, set enabled to false and provide the name of the secret on the
   # line below:
+  # DEPRECATED: please use the 'jdbcOverwrite' values to connect to an external Postgres DB
   # existingSecret: ""
+  # DEPRECATED: please use the 'jdbcOverwrite' values to connect to an external Postgres DB
   # existingSecretPasswordKey: "postgresql-password"
   postgresqlUsername: "sonarUser"
   postgresqlPassword: "sonarPass"
@@ -313,16 +421,6 @@ postgresql:
     requests:
       cpu: 100m
       memory: 200Mi
-  image:
-    registry: registry1.dso.mil
-    repository: ironbank/opensource/postgres/postgresql12
-    tag: "12.10"
-    pullSecrets:
-      - private-registry
-  postgresqlConfiguration: {"listen_addresses": "*"}
-  pgHbaConfiguration: |-
-    local all all md5
-    host all all all md5
   persistence:
     enabled: true
     accessMode: ReadWriteOnce
@@ -334,7 +432,16 @@ postgresql:
     # For standard Kubernetes deployment, set enabled=true
     # If using OpenShift, enabled=false for restricted SCC and enabled=true for anyuid/nonroot SCC
     enabled: true
-    # fsGroup and runAsUser specifications below are not applied if enabled=false. enabled=false is the required setting for OpenShift "restricted SCC" to work successfully.
+    # fsGroup specification below are not applied if enabled=false. enabled=false is the required setting for OpenShift "restricted SCC" to work successfully.
+    # postgresql dockerfile sets user as 1001
+    fsGroup: 26
+    runAsUser: 26
+    runAsGroup: 26
+  containerSecurityContext:
+    # For standard Kubernetes deployment, set enabled=true
+    # If using OpenShift, enabled=false for restricted SCC and enabled=true for anyuid/nonroot SCC
+    enabled: true
+    # runAsUser specification below are not applied if enabled=false. enabled=false is the required setting for OpenShift "restricted SCC" to work successfully.
     # postgresql dockerfile sets user as 1001
     fsGroup: 26
     runAsUser: 26
@@ -352,7 +459,7 @@ postgresql:
   serviceAccount:
     ## If enabled = true, and name is not set, postgreSQL will create a serviceAccount
     enabled: false
-#    name:
+    # name:
 
 # Additional labels to add to the pods:
 # podLabels:
@@ -364,8 +471,12 @@ sonarqubeFolder: /opt/sonarqube
 
 tests:
   enabled: false
-  # image: 
+  resources: {}
+  initContainers:
+    resources: {}
+  # image: bitnami/minideb-extras
 
+# For OpenShift set create=true to ensure service account is created.
 serviceAccount:
   create: false
   # name:
@@ -407,7 +518,7 @@ terminationGracePeriodSeconds: 60
 ## Your FQDN will be ${ .Values.subdomain }.${ .Values.domain }
 domain: bigbang.dev
 istio:
-  # Toggle istio integration 
+  # Toggle istio integration
   enabled: false
   # -- Default argocd peer authentication
   mtls:
@@ -426,7 +537,7 @@ istio:
   injection: disabled
 monitoring:
   enabled: false
-  
+
 networkPolicies:
   enabled: false
   ingressLabels:

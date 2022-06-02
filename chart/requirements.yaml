@@ -4,5 +4,9 @@ dependencies:
   repository: file://./deps/postgresql
   condition: postgresql.enabled
 - name: gluon
-  version: "0.2.3"
+  version: "0.2.9"
   repository: "oci://registry.dso.mil/platform-one/big-bang/apps/library-charts/gluon"
+- name: ingress-nginx
+  version: 3.31.0
+  repository: https://kubernetes.github.io/ingress-nginx
+  condition: nginx.enabled

@@ -1,3 +1,4 @@
+{{- if eq .Values.deploymentType "Deployment"}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -45,13 +46,7 @@ spec:
     {{- if .Values.schedulerName }}
       schedulerName: {{ .Values.schedulerName }}
     {{- end }}
-    {{- if .Values.serviceAccount.create }}
-    {{- if .Values.serviceAccount.name }}
-      serviceAccountName: {{ .Values.serviceAccount.name }}
-    {{- else }}
-      serviceAccountName: {{ include "sonarqube.fullname" . }}
-    {{- end }}
-    {{- end }}
+      serviceAccountName: {{ template "sonarqube.serviceAccountName" . }}
       securityContext:
 {{ toYaml .Values.securityContext | indent 8 }}
       {{- if .Values.image.pullSecret }}
@@ -64,20 +59,10 @@ spec:
       {{- end }}
       {{- if .Values.caCerts }}
         - name: ca-certs
-          image: {{ .Values.caCerts.image }}
+          image: {{ default "adoptopenjdk/openjdk11:alpine" .Values.caCerts.image }}
           imagePullPolicy: {{ .Values.image.pullPolicy  }}
-          {{- if .Values.caCerts.command }}
-          command:
-{{ toYaml .Values.caCerts.command | indent 12 }}
-          {{- else }}
-          command: ["sh"]          
-          {{- end }}
-          {{- if .Values.caCerts.args }}
-          args:
-{{ toYaml .Values.caCerts.args | indent 12 }}
-          {{- else }}
-          args: ["-c", "cp -f \"${JAVA_HOME}/lib/security/cacerts\" /tmp/certs/cacerts; if [ \"$(ls /tmp/secrets/ca-certs)\" ]; then for f in /tmp/secrets/ca-certs/*; do keytool -importcert -file \"${f}\" -alias \"$(basename \"${f}\")\" -keystore /tmp/certs/cacerts -storepass changeit -trustcacerts -noprompt; done; fi"]
-          {{- end }}
+          command: ["sh"]
+          args: ["-c", "cp -f \"${JAVA_HOME}/lib/security/cacerts\" /tmp/certs/cacerts; if [ \"$(ls /tmp/secrets/ca-certs)\" ]; then for f in /tmp/secrets/ca-certs/*; do keytool -importcert -file \"${f}\" -alias \"$(basename \"${f}\")\" -keystore /tmp/certs/cacerts -storepass changeit -trustcacerts -noprompt; done; fi;"]
           {{- if $securityContext := .Values.initContainers.securityContext }}
           securityContext:
 {{ toYaml $securityContext | indent 12 }}
@@ -97,7 +82,7 @@ spec:
       {{- end }}
       {{- if or .Values.initSysctl.enabled .Values.elasticsearch.configureNode }}
         - name: init-sysctl
-          image: {{ .Values.initSysctl.image }}
+          image: {{ default "busybox:1.32" .Values.initSysctl.image }}
           imagePullPolicy: {{ .Values.image.pullPolicy  }}
           {{- if $securityContext := (default .Values.initContainers.securityContext .Values.initSysctl.securityContext) }}
           securityContext:
@@ -118,7 +103,7 @@ spec:
       {{- end }}
       {{- if .Values.plugins.install }}
         - name: install-plugins
-          image: {{ .Values.plugins.image }}
+          image: {{ default "curlimages/curl:7.76.1" .Values.plugins.image }}
           imagePullPolicy: {{ .Values.image.pullPolicy  }}
           command: ["sh",
             "-e",
@@ -142,14 +127,20 @@ spec:
           {{- end }}
           resources:
 {{ toYaml (default .Values.initContainers.resources .Values.plugins.resource) | indent 12 }}
-          {{- with .Values.env }}
           env:
+            - name: http_proxy
+              value: {{ default "" .Values.plugins.httpProxy }}
+            - name: https_proxy
+              value: {{ default "" .Values.plugins.httpsProxy }}
+            - name: no_proxy
+              value: {{ default "" .Values.plugins.noProxy }}
+          {{- with .Values.env }}
             {{- . | toYaml | trim | nindent 12 }}
           {{- end }}
       {{- end }}
       {{- if and .Values.sonarProperties .Values.sonarSecretProperties }}
         - name: concat-properties
-          image: {{ .Values.initContainers.image }}
+          image: {{ default "busybox:1.32" .Values.initContainers.image }}
           imagePullPolicy: {{ .Values.image.pullPolicy  }}
           command: ["sh",
             "-c",
@@ -174,16 +165,13 @@ spec:
             {{- . | toYaml | trim | nindent 12 }}
           {{- end }}
       {{- end }}
-      {{- if and .Values.postgresql.enabled (eq (include "deployment.waitForDb.compatible" .) "true") }}      
+      {{- if .Values.postgresql.enabled }}
         - name: "wait-for-db"
-          image: {{ .Values.waitForDb.image }}
+          image: {{ default "busybox:1.32" .Values.initContainers.image }}
           imagePullPolicy: {{ .Values.image.pullPolicy  }}
           resources:
 {{ toYaml .Values.initContainers.resources | indent 12 }}
-          command: ["/bin/sh", "-c", "until pg_isready -h {{ .Release.Name}}-postgresql -p 5432 -U {{ .Values.postgresql.postgresqlUsername }}; do sleep 2; done"]
-          env:
-          - name: POSTGRES_HOST_AUTH_METHOD
-            value: "trust"      
+          command: ["/bin/sh", "-c", "for i in $(seq 1 200); do nc -z -w3 {{ .Release.Name}}-postgresql 5432 && exit 0 || sleep 2; done; exit 1"]
       {{- end }}
       {{- if .Values.priorityClassName }}
       priorityClassName: {{ .Values.priorityClassName }}
@@ -205,6 +193,9 @@ spec:
 {{ toYaml .Values.affinity | indent 8 }}
     {{- end }}
       containers:
+      {{- if .Values.extraContainers }}
+        {{- toYaml .Values.extraContainers | nindent 8 }}
+      {{- end }}
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -214,26 +205,20 @@ spec:
               protocol: TCP
           env:
             - name: SONAR_WEB_JAVAOPTS
-              {{- if .Values.caCerts }}
-              value: {{ printf "-Djavax.net.ssl.trustStore=%s/certs/cacerts %s" .Values.sonarqubeFolder .Values.jvmOpts | trim | quote }}
-              {{- else }}
-              value: "{{ .Values.jvmOpts }}"
-              {{- end }}
-            {{- if .Values.caCerts }}
+              value: {{ template "sonarqube.jvmOpts" . }}
             - name: SONAR_CE_JAVAOPTS
-              value: {{ printf "-Djavax.net.ssl.trustStore=%s/certs/cacerts" .Values.sonarqubeFolder | trim | quote }}
-            {{- end }}
+              value: {{ template "sonarqube.jvmCEOpts" . }}
             - name: SONAR_JDBC_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ template "postgresql.secret" . }}
-                  key: {{ template "postgresql.secretPasswordKey" . }}
+                  name: {{ template "jdbc.secret" . }}
+                  key: {{ template "jdbc.secretPasswordKey" . }}
             {{- with .Values.env }}
             {{- . | toYaml | trim | nindent 12 }}
             {{- end }}
           envFrom:
             - configMapRef:
-                name: {{ template "sonarqube.fullname" . }}-postgres-config
+                name: {{ template "sonarqube.fullname" . }}-jdbc-config
 {{- range .Values.extraConfig.secrets }}
             - secretRef:
                 name: {{ . }}
@@ -244,8 +229,12 @@ spec:
 {{- end }}
           livenessProbe:
             httpGet:
-              path: {{ .Values.livenessProbe.sonarWebContext }}api/system/status
-              port: http
+              scheme: HTTP
+              path: {{ .Values.livenessProbe.sonarWebContext }}api/system/liveness
+              port: 9000
+              httpHeaders:
+                - name: X-Sonar-Passcode
+                  value: {{ .Values.monitoringPasscode }}
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
           readinessProbe:
@@ -374,3 +363,4 @@ spec:
       - name : concat-dir
         emptyDir: {{- toYaml .Values.emptyDir | nindent 10 -}}
         {{- end }}
+{{- end }}

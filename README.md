@@ -1,6 +1,6 @@
 # sonarqube
 
-![Version: 1.0.26-bb.1](https://img.shields.io/badge/Version-1.0.26--bb.1-informational?style=flat-square) ![AppVersion: 8.9.8-community](https://img.shields.io/badge/AppVersion-8.9.8--community-informational?style=flat-square)
+![Version: 1.2.0-bb.0](https://img.shields.io/badge/Version-1.2.0--bb.0-informational?style=flat-square) ![AppVersion: 9.2-community](https://img.shields.io/badge/AppVersion-9.2--community-informational?style=flat-square)
 
 SonarQube is an open sourced code quality scanning tool
 
