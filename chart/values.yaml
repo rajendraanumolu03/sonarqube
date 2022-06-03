@@ -196,7 +196,7 @@ extraContainers: []
   # secret: your-secret
 
 initSysctl:
-  enabled: true
+  enabled: false
   vmMaxMapCount: 524288
   fsFileMax: 131072
   nofile: 131072
@@ -207,7 +207,7 @@ initSysctl:
   # resources: {}
 
 initFs:
-  enabled: true
+  enabled: false
   image: registry1.dso.mil/ironbank/big-bang/base:1.17.0
   securityContext:
     privileged: true
