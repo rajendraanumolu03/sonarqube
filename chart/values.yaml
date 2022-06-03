@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-deploymentType: "StatefulSet"
+deploymentType: "Deployment"
 
 # If the deployment Type is set to Deployment sonarqube is deployed as a replica set
 # There should not be more than 1 sonarqube instance connected to the same database
