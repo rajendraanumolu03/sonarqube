@@ -161,7 +161,7 @@ startupProbe:
   # sonarWebContext: /sonarqube/
 
 initContainers:
-  # image: registry1.dso.mil/ironbank/big-bang/base:1.17.0
+  image: registry1.dso.mil/ironbank/big-bang/base:1.17.0
   # We allow the init containers to have a separate security context declaration because
   # the initContainer may not require the same as SonarQube.
   # securityContext: {}
