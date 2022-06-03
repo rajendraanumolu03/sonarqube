@@ -231,7 +231,7 @@ prometheusExporter:
   # ceConfig:
   #   rules:
   #     - pattern: ".*"
-  # image: registry1.dso.mil/ironbank/big-bang/base:1.17.0
+  image: registry1.dso.mil/ironbank/big-bang/base:1.17.0
   # For use behind a corporate proxy when downloading prometheus
   # httpProxy: ""
   # httpsProxy: ""
