@@ -171,7 +171,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy  }}
           resources:
 {{ toYaml .Values.initContainers.resources | indent 12 }}
-          command: ["/bin/sh", "-c", "until pg_isready -h {{ .Release.Name}}-postgresql -p 5432 -U {{ .Values.postgresql.postgresqlUsername }}; do sleep 2; done; exit 1"]
+          command: ["/bin/sh", "-c", "until pg_isready -h {{ .Release.Name}}-postgresql -p 5432 -d {{ .Values.postgresql.postgresqlDatabase }} -U {{ .Values.postgresql.postgresqlUsername }}; do sleep 2; done"]
       {{- end }}
       {{- if .Values.priorityClassName }}
       priorityClassName: {{ .Values.priorityClassName }}
