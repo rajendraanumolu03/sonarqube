@@ -256,7 +256,7 @@ plugins:
   # httpsProxy: ""
   # noProxy: ""
 
-  # image: registry1.dso.mil/ironbank/big-bang/base:1.17.0
+  image: registry1.dso.mil/ironbank/big-bang/base:1.17.0
   # resources: {}
 
   # .netrc secret file with a key "netrc" to use basic auth while downloading plugins
@@ -509,7 +509,7 @@ extraConfig:
 # account:
 #   adminPassword: admin
 #   currentAdminPassword: admin
-# curlContainerImage: registry1.dso.mil/ironbank/big-bang/base:1.17.0
+curlContainerImage: registry1.dso.mil/ironbank/big-bang/base:1.17.0
 # adminJobAnnotations: {}
 
 terminationGracePeriodSeconds: 60
