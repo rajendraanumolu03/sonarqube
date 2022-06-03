@@ -161,7 +161,7 @@ startupProbe:
   # sonarWebContext: /sonarqube/
 
 initContainers:
-  # image: busybox:1.32
+  # image: registry1.dso.mil/ironbank/big-bang/base:1.17.0
   # We allow the init containers to have a separate security context declaration because
   # the initContainer may not require the same as SonarQube.
   # securityContext: {}
@@ -182,7 +182,7 @@ extraInitContainers: {}
 ##
 ## Example:
 ## - name: myapp-container
-##   image: busybox
+##   image: registry1.dso.mil/ironbank/big-bang/base:1.17.0
 ##   command: ['sh', '-c', 'echo Hello && sleep 3600']
 ##
 extraContainers: []
@@ -200,14 +200,14 @@ initSysctl:
   fsFileMax: 131072
   nofile: 131072
   nproc: 8192
-  # image: busybox:1.32
+  image: registry1.dso.mil/ironbank/big-bang/base:1.17.0
   securityContext:
     privileged: true
   # resources: {}
 
 initFs:
   enabled: true
-  # image: busybox:1.32
+  image: registry1.dso.mil/ironbank/big-bang/base:1.17.0
   securityContext:
     privileged: true
 
@@ -231,7 +231,7 @@ prometheusExporter:
   # ceConfig:
   #   rules:
   #     - pattern: ".*"
-  # image: curlimages/curl:7.76.1
+  # image: registry1.dso.mil/ironbank/big-bang/base:1.17.0
   # For use behind a corporate proxy when downloading prometheus
   # httpProxy: ""
   # httpsProxy: ""
@@ -256,7 +256,7 @@ plugins:
   # httpsProxy: ""
   # noProxy: ""
 
-  # image: curlimages/curl:7.76.1
+  # image: registry1.dso.mil/ironbank/big-bang/base:1.17.0
   # resources: {}
 
   # .netrc secret file with a key "netrc" to use basic auth while downloading plugins
@@ -509,7 +509,7 @@ extraConfig:
 # account:
 #   adminPassword: admin
 #   currentAdminPassword: admin
-# curlContainerImage: curlimages/curl:latest
+# curlContainerImage: registry1.dso.mil/ironbank/big-bang/base:1.17.0
 # adminJobAnnotations: {}
 
 terminationGracePeriodSeconds: 60
