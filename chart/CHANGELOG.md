@@ -4,6 +4,106 @@ All changes to this chart will be documented in this file.
 * Fixed GH-277 by ensuring current/new admin passwords are URL escaped in the change-admin-password-hook job.
 * Add imagepull policy for admin password hook
 
+## [1.0.29]
+* updated SonarQube LTS to 8.9.9
+
+## [1.0.28]
+* Add documentation for ingress annotations
+
+## [1.0.27]
+* Fix repository issues with bitnami/postgres
+
+## [1.0.26]
+* updated SonarQube LTS to 8.9.8
+
+## [1.0.25]
+* updated SonarQube LTS to 8.9.7
+
+## [1.0.24]
+* fixed missing `env` key for the install-plugins container in both the Deployment and StatefulSet
+
+## [1.0.23]
+* updated SonarQube LTS to 8.9.6
+
+## [1.0.22]
+* updated SonarQube LTS to 8.9.5
+
+## [1.0.21]
+* updated SonarQube LTS to 8.9.4
+
+## [1.0.20]
+* Fixed LTS default version
+
+## [1.0.19]
+* updated appversion to new LTS patch release (8.9.3)
+
+## [1.0.18]
+* fixed artifacthub annotations
+
+## [1.0.17]
+* fixed `invalid: metadata.labels: Invalid value` error on the `chart` label of the pvc
+
+## [1.0.16]
+* release to helm repository
+* updated appversion to new LTS patch release
+
+## [1.0.15]
+* fixed chart name
+
+## [1.0.14]
+* fixed usage of `sonarSecretProperties`
+
+## [1.0.13]
+* made prometheus exporter port configurable and support prometheus PodMonitor
+
+## [1.0.12]
+* make sure SQ is restarted when the JMX Prometheus exporter agents configuration changes
+
+## [1.0.11]
+* JMX Prometheus exporter agent is now also enabled on the CE process
+* `prometheusExporter.ceConfig` allows specific config of the JMX Prometheus exporter agent for the CE process
+
+## [1.0.10]
+* added prometheusExporter.noCheckCertificate option
+
+## [1.0.9]
+* add missing imagePullSecrets in sts install type
+
+## [1.0.8]
+* fix plugin installation init container permissions
+* fix duplicated mount point for conf when sonar.properties are defined
+
+## [1.0.7]
+* fix invalid yaml render in `secret.yaml` when using external postgresql
+
+## [1.0.6]
+* added `prometheusExporter.downloadURL` (custom download URL for the agent jar)
+
+## [1.0.5]
+* fix possible issue with prometheus init container and `env` set in the `values.yaml`
+
+## [1.0.4]
+* fix for missing `serviceAccountName` in STS deployment kind
+
+## [1.0.3]
+* fixed prometheus config volume mount if disabled
+
+## [1.0.2]
+* added option to configure CE java opts separately
+
+## [1.0.1]
+* fixed missing conditional that was introduced in 0.9.2.2 to sonarqube-sts.yaml
+* updated default application version to 8.9
+
+## [1.0.0]
+* changed default deployment from replica set to stateful set
+* added default support for prometheus jmx exporter
+* added init filesystem container
+* added nginx-ingress as optional dependency
+* updated application version to 8.8-community
+* improved readiness/startup and liveness probes
+* improved documentation
+
 ## [9.6.2]
 * Change order of env variables to better support 7.9-lts
 
