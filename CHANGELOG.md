@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [1.0.29-bb.0] - 2022-06-16
+### Changed
+- Updated Sonarqube image to 8.9.9
+- Updated Postgresql12 image to 12.11
+- Updated BB base image to 1.18.0
+
 ## [1.0.26-bb.2] - 2022-06-16
 ### Changed
 - Updated BB base image to 1.17.0
@@ -13,7 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [1.0.26-bb.0] - 2022-05-05
 ### Changed
-- Updated chart to sync with upstream sonarqube-lts chart 
+- Updated chart to sync with upstream sonarqube-lts chart
 - Updated SonarQube image to `8.9.8-community`
 - Updated PostgreSQL image to `12.10`
 - Updated Big Bang Base image to `1.2.0`
@@ -57,7 +63,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [9.6.3-bb.16] - 2022-2-15
 ### Changed
-- Updated default-deny-all network policy to deny all. 
+- Updated default-deny-all network policy to deny all.
 
 ## [9.6.3-bb.15] - 2022-1-02
 ### Added

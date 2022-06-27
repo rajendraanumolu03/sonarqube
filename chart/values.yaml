@@ -21,7 +21,7 @@ OpenShift:
 
 image:
   repository: registry1.dso.mil/ironbank/big-bang/sonarqube
-  tag: 8.9.8-community
+  tag: 8.9.9-community
   pullPolicy: IfNotPresent
   # If using a private repository, the name of the imagePullSecret to use
   pullSecret: private-registry
@@ -117,13 +117,13 @@ livenessProbe:
   # sonar.web.context: /sonarqube
 
 initContainers:
-  # image: 
+  # image:
   # We allow the init containers to have a separate security context declaration because
   # the initContainer may not require the same as SonarQube.
   # securityContext: {}
   # We allow the init containers to have a separate resources declaration because
   # the initContainer does not take as much resources.
-  resources: 
+  resources:
     limits:
       memory: 300Mi
       cpu: 50m
@@ -148,7 +148,7 @@ extraInitContainers: {}
 #        mountPath: "/downloads"
 
 waitForDb:
-  image: registry1.dso.mil/ironbank/opensource/postgres/postgresql12:12.10
+  image: registry1.dso.mil/ironbank/opensource/postgres/postgresql12:12.11
 
 ## Provide a secret containing one or more certificate files in the keys that will be added to cacerts
 ## The cacerts file will be set via SONARQUBE_WEB_JVM_OPTS and SONAR_CE_JAVAOPTS
@@ -165,7 +165,7 @@ initSysctl:
   fsFileMax: 131072
   nofile: 131072
   nproc: 8192
-  # image: 
+  # image:
   securityContext:
     privileged: true
   # resources: {}
@@ -185,7 +185,7 @@ plugins:
   # httpsProxy: ""
   # noProxy: ""
 
-  # image: 
+  # image:
   # resources: {}
 
   # .netrc secret file with a key "netrc" to use basic auth while downloading plugins
@@ -316,7 +316,7 @@ postgresql:
   image:
     registry: registry1.dso.mil
     repository: ironbank/opensource/postgres/postgresql12
-    tag: "12.10"
+    tag: "12.11"
     pullSecrets:
       - private-registry
   postgresqlConfiguration: {"listen_addresses": "*"}
@@ -364,7 +364,7 @@ sonarqubeFolder: /opt/sonarqube
 
 tests:
   enabled: false
-  # image: 
+  # image:
 
 serviceAccount:
   create: false
@@ -407,7 +407,7 @@ terminationGracePeriodSeconds: 60
 ## Your FQDN will be ${ .Values.subdomain }.${ .Values.domain }
 domain: bigbang.dev
 istio:
-  # Toggle istio integration 
+  # Toggle istio integration
   enabled: false
   # -- Default argocd peer authentication
   mtls:
@@ -426,7 +426,7 @@ istio:
   injection: disabled
 monitoring:
   enabled: false
-  
+
 networkPolicies:
   enabled: false
   ingressLabels:
