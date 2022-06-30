@@ -3,6 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [1.0.29-bb.2] - 2022-06-30
+### Changed
+- Changed install-plugin configmap to use curl instead of wget
+- Changed plugins.image to declare use of sonarqube image
+
 ## [1.0.29-bb.1] - 2022-06-28
 ### Changed
 - Updated bb base image to 2.0.0

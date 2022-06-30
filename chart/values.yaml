@@ -185,7 +185,7 @@ plugins:
   # httpsProxy: ""
   # noProxy: ""
 
-  # image:
+  image: registry1.dso.mil/ironbank/big-bang/sonarqube:8.9.9-community
   # resources: {}
 
   # .netrc secret file with a key "netrc" to use basic auth while downloading plugins
