@@ -1,4 +1,4 @@
-# Logging  
+# Logging
 
 # Pre-requisites
 
@@ -22,17 +22,17 @@ ECK/Fluentd is deployed
 4. In KQL textbox enter the  field of interest for eg:  "kubernetes.namespace_name : sonarqube*"
 
 5. Click Refresh/Update
-  
+
 ## Application Logs
 
-Application logs are available in the applicaiton.  Go to the sonarkube URL and select login from the upper lefr.  The default credentials:
+Application logs are available in the application.  Go to the SonarQube URL and select login from the upper lefr.  The default credentials:
 
 Username: <admin>
 Password: <admin>
 
-Note: change the password on the first login  
+Note: change the password on the first login
 
-Logs can be downloaded by goint to Administration-> System -> Download Logs
+Logs can be downloaded by going to Administration-> System -> Download Logs
 
 Server-side logging is controlled by properties set in $SONARQUBE-HOME/conf/sonar.properties.
 
@@ -48,7 +48,7 @@ The server-side log level can be customized via the sonar.log.level property. Su
 
 INFO - the default
 DEBUG - for advanced logs.
-TRACE - show advanced logs and all SQL and Elasticsearch requests. TRACE level logging slows down the server environment, and should be used only for tracking web request performance problems.  
+TRACE - show advanced logs and all SQL and Elasticsearch requests. TRACE level logging slows down the server environment, and should be used only for tracking web request performance problems.
 
 ### Log Level by Process
 
@@ -74,8 +74,8 @@ The System Info page gives you the ability to download your instance's current l
 
 The number of Lines of Code (for licensing purposes) in an instance can be found in the System section of the System Info page on, and on the License page (Administration > Configuration > License Manager in commercial editions.
 
-## Sonarqube Config  
+## Sonarqube Config
 
-Further logging information can be found in the sonarqube configuration file.  For details run the following command:
+Further logging information can be found in the SonarQube configuration file.  For details run the following command:
 
-```kubectl exec sonarqube-sonarqube-5dd795f449-xxxx -n sonarqube -- cat ./conf/sonar.properties``  
+```kubectl exec sonarqube-sonarqube-5dd795f449-xxxx -n sonarqube -- cat ./conf/sonar.properties``

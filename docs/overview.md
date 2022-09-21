@@ -2,7 +2,7 @@
 
 ## Overview
 
-Sonarqube is an open-source platform for continuous inspection of code to perform automatic reviews with static analysis to detect bugs, vulnerabilities.
+SonarQube is an open-source platform for continuous inspection of code to perform automatic reviews with static analysis to detect bugs, vulnerabilities.
 
 ## Dependencies
 
@@ -14,6 +14,6 @@ SonarQube® is an automatic code review tool to detect bugs, vulnerabilities, an
 
 ## External Resources
 
-If you'd like to learn more about the Sonarqube application and its features, see their [official documentation](https://www.sonarqube.org/).
+If you'd like to learn more about the SonarQube application and its features, see their [official documentation](https://www.sonarqube.org/).
 
 Please review the BigBang [Architecture Document](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/charter/packages/sonarqube/Architecture.md) for more information about its role within BigBang.
