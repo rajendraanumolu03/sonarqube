@@ -47,7 +47,7 @@ Go to Administration > Configuration > General Settings > Security > SAML
 * Application ID is the value of the "Client ID" you set in Keycloak (for example "sonarqube")
 * Provider ID is the value of the "EntityDescriptor" > "entityID" attribute in the XML configuration file (for example "http://keycloak:8080/auth/realms/sonarqube" where sonarqube is the name of the realm)
 * SAML login url is the value of "SingleSignOnService" > "Location" attribute in the XML configuration file (for example "http://keycloak:8080/auth/realms/sonarqube/protocol/saml")
-* Provider certificate is the value you get from Reaml Settings -> Keys -> click on the Certificate button
+* Provider certificate is the value you get from Realm Settings -> Keys -> click on the Certificate button
 * SAML user login attribute is the value set in the login mapper in "SAML Attribute Name"
 * SAML user name attribute is the value set in the name mapper in "SAML Attribute Name"
 * (Optional) SAML user email attribute is the value set in the email mapper in "SAML Attribute Name"
@@ -101,17 +101,17 @@ sonarProperties:
 
 # OIDC Keycloak integration for Sonarqube
 
-1. Login to Sonarqube with default admin credentials username: admin password: admin
-2. In Adminstration->General  
-   set Server base URL to Sonarqube URL  
+1. Login to SonarQube with default admin credentials username: admin password: admin
+2. In Adminstration->General
+   set Server base URL to Sonarqube URL
    (for ex: https:/sonarqube.dsop.io) without a trailing /
 3. On a different tab on the browser, login to  keycloak realm
    - From Clients choose the sonarqube client and note the Client id
      - Set Root URL to empty string
-     - Set Valid Redirect URI to  
-        ```https://<sonarqube url>/*```  
+     - Set Valid Redirect URI to
+        ```https://<sonarqube url>/*```
         (for ex: https://sonarqube.dsop.io/*)
-     - Set Base URI to Sonarqube URL  
+     - Set Base URI to Sonarqube URL
        (for ex: https://sonarqube.dsop.io) without a trailing /
    - On Clients-<Sonarqube Client>->Credentials regenerate the secret and note it down
    - On Clients-<Sonarqube Client>->ClientScopes->Sonarqube->Mappers
@@ -128,10 +128,10 @@ sonarProperties:
 4. In Administration-> Security Set OpenID Connect to enabled
    - Issuer URI to https://keycloak.fences.dsop.io/auth/realms/baby-yoda
    - ClientId noted from keycloak above
-   - ClientSecret regeneretaed from keycloak above
+   - ClientSecret regenerated from keycloak above
    - Scopes - openid Sonarqube
 5. Logout of sonarqube and log back in with the username created above by clicking on oidc login
 6. Logout of sonarqube and log back in with the username admin and password admin
 7. Go to Administration->Security->Users and add username created above to sonar-admin group
 8. Go to Administration->Security->Users and delete admin user
-9. Logout of Sonarqune and login with username and password created in keycloak
+9. Logout of SonarQube and login with username and password created in keycloak
