@@ -1,6 +1,6 @@
 # sonarqube
 
-![Version: 1.0.29-bb.2](https://img.shields.io/badge/Version-1.0.29--bb.2-informational?style=flat-square) ![AppVersion: 8.9.9](https://img.shields.io/badge/AppVersion-8.9.9-informational?style=flat-square)
+![Version: 1.0.29-bb.3](https://img.shields.io/badge/Version-1.0.29--bb.3-informational?style=flat-square) ![AppVersion: 8.9.9](https://img.shields.io/badge/AppVersion-8.9.9-informational?style=flat-square)
 
 SonarQube offers Code Quality and Code Security analysis for up to 27 languages. Find Bugs, Vulnerabilities, Security Hotspots and Code Smells throughout your workflow.
 
@@ -86,6 +86,8 @@ helm install sonarqube chart/
 | plugins.image | string | `"registry1.dso.mil/ironbank/big-bang/sonarqube:8.9.9-community"` |  |
 | plugins.noCheckCertificate | bool | `false` |  |
 | jvmOpts | string | `""` |  |
+| env[0].name | string | `"JDK_JAVA_OPTIONS"` |  |
+| env[0].value | string | `"-Dcom.redhat.fips=false"` |  |
 | annotations | object | `{}` |  |
 | resources.limits.cpu | string | `"300m"` |  |
 | resources.limits.memory | string | `"2.5Gi"` |  |

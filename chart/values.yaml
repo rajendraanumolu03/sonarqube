@@ -201,9 +201,11 @@ jvmOpts: ""
 
 ## Environment variables to attach to the pods
 ##
-# env:
-#   - name: VARIABLE
-#     value: my-value
+# Big Bang addition - FIPS is not supported by Sonarqube so we have to disable the FIPS alignment at the JDK level
+# For additional Sonarqube pre-reqs see https://docs.sonarqube.org/latest/requirements/requirements/
+env:
+  - name: JDK_JAVA_OPTIONS
+    value: "-Dcom.redhat.fips=false"
 
 # Set annotations for pods
 annotations: {}
