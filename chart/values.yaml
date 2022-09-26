@@ -35,6 +35,9 @@ containerSecurityContext:
   # Sonarqube dockerfile creates sonarqube user as UID and GID 1000
   runAsUser: 1000
   runAsGroup: 1000
+  capabilities:
+    drop: 
+      - ALL
 
 # Settings to configure elasticsearch host requirements
 elasticsearch:

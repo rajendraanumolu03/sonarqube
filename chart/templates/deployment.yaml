@@ -53,14 +53,14 @@ spec:
     {{- end }}
     {{- end }}
       securityContext:
-{{ toYaml .Values.securityContext | indent 8 }}
+        {{ toYaml .Values.securityContext | indent 8 }}
       {{- if .Values.image.pullSecret }}
       imagePullSecrets:
         - name: {{ .Values.image.pullSecret }}
       {{- end }}
       initContainers:
       {{- if .Values.extraInitContainers }}
-{{ toYaml .Values.extraInitContainers | indent 8 }}
+        {{ toYaml .Values.extraInitContainers | indent 8 }}
       {{- end }}
       {{- if .Values.caCerts }}
         - name: ca-certs
@@ -68,22 +68,24 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy  }}
           {{- if .Values.caCerts.command }}
           command:
-{{ toYaml .Values.caCerts.command | indent 12 }}
+            {{ toYaml .Values.caCerts.command | indent 12 }}
           {{- else }}
           command: ["sh"]          
           {{- end }}
           {{- if .Values.caCerts.args }}
           args:
-{{ toYaml .Values.caCerts.args | indent 12 }}
+            {{ toYaml .Values.caCerts.args | indent 12 }}
           {{- else }}
           args: ["-c", "cp -f \"${JAVA_HOME}/lib/security/cacerts\" /tmp/certs/cacerts; if [ \"$(ls /tmp/secrets/ca-certs)\" ]; then for f in /tmp/secrets/ca-certs/*; do keytool -importcert -file \"${f}\" -alias \"$(basename \"${f}\")\" -keystore /tmp/certs/cacerts -storepass changeit -trustcacerts -noprompt; done; fi"]
           {{- end }}
           {{- if $securityContext := .Values.initContainers.securityContext }}
           securityContext:
-{{ toYaml $securityContext | indent 12 }}
+            {{ toYaml $securityContext | indent 12 }}
+          securityContext:
+            {{- toYaml $.Values.containerSecurityContext | nindent 12 }}
           {{- end }}
           resources:
-{{ toYaml .Values.initContainers.resources | indent 12 }}
+            {{ toYaml .Values.initContainers.resources | indent 12 }}
           volumeMounts:
             - mountPath: /tmp/certs
               name: sonarqube
@@ -101,10 +103,12 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy  }}
           {{- if $securityContext := (default .Values.initContainers.securityContext .Values.initSysctl.securityContext) }}
           securityContext:
-{{ toYaml $securityContext | indent 12 }}
+            {{ toYaml $securityContext | indent 12 }}
+          securityContext:
+            {{- toYaml $.Values.containerSecurityContext | nindent 12 }}
           {{- end }}
           resources:
-{{ toYaml (default .Values.initContainers.resources .Values.initSysctl.resources) | indent 12 }}
+            {{ toYaml (default .Values.initContainers.resources .Values.initSysctl.resources) | indent 12 }}
           command: ["sh",
             "-e",
             "/tmp/scripts/init_sysctl.sh"]
@@ -138,10 +142,12 @@ spec:
             {{- end }}
           {{- if $securityContext := .Values.initContainers.securityContext }}
           securityContext:
-{{ toYaml $securityContext | indent 12 }}
+            {{ toYaml $securityContext | indent 12 }}
+          securityContext:
+            {{- toYaml $.Values.containerSecurityContext | nindent 12 }}
           {{- end }}
           resources:
-{{ toYaml (default .Values.initContainers.resources .Values.plugins.resource) | indent 12 }}
+            {{ toYaml (default .Values.initContainers.resources .Values.plugins.resource) | indent 12 }}
           {{- with .Values.env }}
           env:
             {{- . | toYaml | trim | nindent 12 }}
@@ -165,10 +171,12 @@ spec:
               name: concat-dir
           {{- if $securityContext := .Values.initContainers.securityContext }}
           securityContext:
-{{ toYaml $securityContext | indent 12 }}
+            {{ toYaml $securityContext | indent 12 }}
+          securityContext:
+            {{- toYaml $.Values.containerSecurityContext | nindent 12 }}
           {{- end }}
           resources:
-{{ toYaml .Values.initContainers.resources | indent 12 }}
+            {{ toYaml .Values.initContainers.resources | indent 12 }}
           {{- with .Values.env }}
           env:
             {{- . | toYaml | trim | nindent 12 }}
@@ -179,7 +187,7 @@ spec:
           image: {{ .Values.waitForDb.image }}
           imagePullPolicy: {{ .Values.image.pullPolicy  }}
           resources:
-{{ toYaml .Values.initContainers.resources | indent 12 }}
+            {{ toYaml .Values.initContainers.resources | indent 12 }}
           command: ["/bin/sh", "-c", "until pg_isready -h {{ .Release.Name}}-postgresql -p 5432 -U {{ .Values.postgresql.postgresqlUsername }}; do sleep 2; done"]
           env:
           - name: POSTGRES_HOST_AUTH_METHOD
@@ -190,19 +198,19 @@ spec:
       {{- end }}
     {{- if .Values.nodeSelector }}
       nodeSelector:
-{{ toYaml .Values.nodeSelector | indent 8 }}
+        {{ toYaml .Values.nodeSelector | indent 8 }}
     {{- end }}
     {{- if .Values.hostAliases }}
       hostAliases:
-{{ toYaml .Values.hostAliases | indent 8 }}
+        {{ toYaml .Values.hostAliases | indent 8 }}
     {{- end }}
     {{- if .Values.tolerations }}
       tolerations:
-{{ toYaml .Values.tolerations | indent 8 }}
+        {{ toYaml .Values.tolerations | indent 8 }}
     {{- end }}
     {{- if .Values.affinity }}
       affinity:
-{{ toYaml .Values.affinity | indent 8 }}
+        {{ toYaml .Values.affinity | indent 8 }}
     {{- end }}
       containers:
         - name: {{ .Chart.Name }}
@@ -234,7 +242,7 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ template "sonarqube.fullname" . }}-postgres-config
-{{- range .Values.extraConfig.secrets }}
+                  {{- range .Values.extraConfig.secrets }}
             - secretRef:
                 name: {{ . }}
 {{- end }}
@@ -257,7 +265,7 @@ spec:
             failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
           {{- if .Values.containerSecurityContext }}
           securityContext:
-{{- toYaml .Values.containerSecurityContext | nindent 12 }}
+            {{- toYaml .Values.containerSecurityContext | nindent 12 }}
           {{- end }}
           volumeMounts:
 {{- if .Values.persistence.mounts }}
@@ -307,7 +315,7 @@ spec:
             - mountPath: /tmp
               name: tmp-dir
           resources:
-{{ toYaml .Values.resources | indent 12 }}
+{           { toYaml .Values.resources | indent 12 }}
       volumes:
 {{- if .Values.persistence.volumes }}
 {{ tpl (toYaml .Values.persistence.volumes | indent 6) . }}

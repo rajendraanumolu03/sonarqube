@@ -1,6 +1,6 @@
 # sonarqube
 
-![Version: 1.0.29-bb.3](https://img.shields.io/badge/Version-1.0.29--bb.3-informational?style=flat-square) ![AppVersion: 8.9.9](https://img.shields.io/badge/AppVersion-8.9.9-informational?style=flat-square)
+![Version: 1.0.29-bb.4](https://img.shields.io/badge/Version-1.0.29--bb.4-informational?style=flat-square) ![AppVersion: 8.9.9](https://img.shields.io/badge/AppVersion-8.9.9-informational?style=flat-square)
 
 SonarQube offers Code Quality and Code Security analysis for up to 27 languages. Find Bugs, Vulnerabilities, Security Hotspots and Code Smells throughout your workflow.
 
@@ -46,6 +46,7 @@ helm install sonarqube chart/
 | securityContext.fsGroup | int | `1000` |  |
 | containerSecurityContext.runAsUser | int | `1000` |  |
 | containerSecurityContext.runAsGroup | int | `1000` |  |
+| containerSecurityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | elasticsearch.configureNode | bool | `false` |  |
 | elasticsearch.bootstrapChecks | bool | `true` |  |
 | service.type | string | `"ClusterIP"` |  |
