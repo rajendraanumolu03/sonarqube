@@ -133,6 +133,10 @@ initContainers:
     requests:
       memory: 300Mi
       cpu: 50m
+  securityContext:
+    capabilities:
+      drop: 
+        - ALL
 
 extraInitContainers: {}
 # Extra init containers to e.g. download required artifacts
@@ -171,6 +175,9 @@ initSysctl:
   # image:
   securityContext:
     privileged: true
+    capabilities:
+      drop: 
+        - ALL
   # resources: {}
 
 # List of plugins to install.
