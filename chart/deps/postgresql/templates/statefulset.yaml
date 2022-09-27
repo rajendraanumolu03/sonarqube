@@ -131,7 +131,7 @@ spec:
           securityContext:
             runAsUser: {{ .Values.securityContext.runAsUser }}
             runAsGroup: {{ .Values.securityContext.runAsGroup }}
-            capabilities: {{ toYaml .Values.securityContext.capabilities | nindent 12 }}
+            capabilities: {{ toYaml .Values.securityContext.capabilities | nindent 14 }}
           {{- end }}
           env:
             - name: BITNAMI_DEBUG
