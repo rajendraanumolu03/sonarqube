@@ -76,7 +76,7 @@ spec:
         - name: init-chmod-data
           image: {{ template "postgresql.volumePermissions.image" . }}
           imagePullPolicy: {{ .Values.volumePermissions.image.pullPolicy | quote }}
-          {{- with .Values.postgres.containerSecurityContext }}
+          {{- with .Values.postgresql.containerSecurityContext }}
           securityContext:
             {{- toYaml . | nindent 12 }}
           {{- end }}
@@ -128,7 +128,7 @@ spec:
         - name: {{ template "postgresql.fullname" . }}
           image: {{ template "postgresql.image" . }}
           imagePullPolicy: "{{ .Values.image.pullPolicy }}"
-          {{- with .Values.postgres.containerSecurityContext }}
+          {{- with .Values.postgresql.containerSecurityContext }}
           securityContext:
             {{- toYaml . | nindent 12 }}
           {{- end }}
@@ -339,7 +339,7 @@ spec:
           securityContext:
             runAsUser: {{ .Values.metrics.securityContext.runAsUser }}
           {{- end }}
-          {{- with .Values.postgres.containerSecurityContext }}
+          {{- with .Values.postgresql.containerSecurityContext }}
           securityContext:
             {{- toYaml . | nindent 12 }}
           {{- end }}
