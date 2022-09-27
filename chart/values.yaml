@@ -351,7 +351,6 @@ postgresql:
     fsGroup: 26
     runAsUser: 26
     runAsGroup: 26
-  containerSecurityContext:
     capabilities:
       drop: 
         - ALL
