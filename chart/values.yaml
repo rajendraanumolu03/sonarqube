@@ -351,6 +351,11 @@ postgresql:
     fsGroup: 26
     runAsUser: 26
     runAsGroup: 26
+  containerSecurityContext:
+    capabilities:
+      drop: 
+        - ALL
+
   volumePermissions:
     # For standard Kubernetes deployment, set enabled=false
     # For OpenShift, set enabled=true and ensure to set volumepermissions.securitycontext.runAsUser below.
