@@ -101,6 +101,7 @@ spec:
           {{- else }}
           securityContext:
             runAsUser: {{ .Values.volumePermissions.securityContext.runAsUser }}
+          {{- end }}
           volumeMounts:
             {{ if .Values.persistence.enabled }}
             - name: data
