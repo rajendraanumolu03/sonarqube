@@ -1,6 +1,6 @@
 # sonarqube
 
-![Version: 1.0.29-bb.3](https://img.shields.io/badge/Version-1.0.29--bb.3-informational?style=flat-square) ![AppVersion: 8.9.9](https://img.shields.io/badge/AppVersion-8.9.9-informational?style=flat-square)
+![Version: 1.0.29-bb.4](https://img.shields.io/badge/Version-1.0.29--bb.4-informational?style=flat-square) ![AppVersion: 8.9.9](https://img.shields.io/badge/AppVersion-8.9.9-informational?style=flat-square)
 
 SonarQube offers Code Quality and Code Security analysis for up to 27 languages. Find Bugs, Vulnerabilities, Security Hotspots and Code Smells throughout your workflow.
 
@@ -46,6 +46,7 @@ helm install sonarqube chart/
 | securityContext.fsGroup | int | `1000` |  |
 | containerSecurityContext.runAsUser | int | `1000` |  |
 | containerSecurityContext.runAsGroup | int | `1000` |  |
+| containerSecurityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | elasticsearch.configureNode | bool | `false` |  |
 | elasticsearch.bootstrapChecks | bool | `true` |  |
 | service.type | string | `"ClusterIP"` |  |
@@ -73,6 +74,7 @@ helm install sonarqube chart/
 | initContainers.resources.limits.cpu | string | `"50m"` |  |
 | initContainers.resources.requests.memory | string | `"300Mi"` |  |
 | initContainers.resources.requests.cpu | string | `"50m"` |  |
+| initContainers.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | extraInitContainers | object | `{}` |  |
 | waitForDb.image | string | `"registry1.dso.mil/ironbank/opensource/postgres/postgresql12:12.11"` |  |
 | initSysctl.enabled | bool | `false` |  |
@@ -81,6 +83,7 @@ helm install sonarqube chart/
 | initSysctl.nofile | int | `131072` |  |
 | initSysctl.nproc | int | `8192` |  |
 | initSysctl.securityContext.privileged | bool | `true` |  |
+| initSysctl.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | plugins.install | list | `[]` |  |
 | plugins.lib | list | `[]` |  |
 | plugins.image | string | `"registry1.dso.mil/ironbank/big-bang/sonarqube:8.9.9-community"` |  |

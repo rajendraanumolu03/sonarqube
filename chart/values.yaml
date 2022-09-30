@@ -35,6 +35,9 @@ containerSecurityContext:
   # Sonarqube dockerfile creates sonarqube user as UID and GID 1000
   runAsUser: 1000
   runAsGroup: 1000
+  capabilities:
+    drop: 
+      - ALL
 
 # Settings to configure elasticsearch host requirements
 elasticsearch:
@@ -130,6 +133,10 @@ initContainers:
     requests:
       memory: 300Mi
       cpu: 50m
+  securityContext:
+    capabilities:
+      drop: 
+        - ALL
 
 extraInitContainers: {}
 # Extra init containers to e.g. download required artifacts
@@ -168,6 +175,9 @@ initSysctl:
   # image:
   securityContext:
     privileged: true
+    capabilities:
+      drop: 
+        - ALL
   # resources: {}
 
 # List of plugins to install.
@@ -341,6 +351,10 @@ postgresql:
     fsGroup: 26
     runAsUser: 26
     runAsGroup: 26
+    capabilities:
+      drop: 
+        - ALL
+
   volumePermissions:
     # For standard Kubernetes deployment, set enabled=false
     # For OpenShift, set enabled=true and ensure to set volumepermissions.securitycontext.runAsUser below.
